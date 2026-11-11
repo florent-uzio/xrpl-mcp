@@ -1,5 +1,11 @@
 # @florent-uzio/xrpl-mcp
 
+## 1.3.1
+
+### Patch Changes
+
+- c2ce746: The default flow records folder is now `~/.xrpl-mcp/records` (was `~/.xrpl-mastra-ai/records`). Existing records in the old folder are not migrated; set `XRPL_RECORDS_DIR` to keep using them.
+
 ## 1.3.0
 
 ### Minor Changes
