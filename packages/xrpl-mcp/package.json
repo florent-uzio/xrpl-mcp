@@ -6,7 +6,7 @@
   "author": "Florent Uzio",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/florent-uzio/xrpl-mastra-ai.git",
+    "url": "git+https://github.com/florent-uzio/xrpl-mcp.git",
     "directory": "packages/xrpl-mcp"
   },
   "type": "module",

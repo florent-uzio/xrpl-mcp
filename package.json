@@ -1,5 +1,5 @@
 {
-  "name": "xrpl-mastra-ai",
+  "name": "xrpl-mcp",
   "private": true,
   "version": "1.0.0",
   "description": "Mastra agent, tools and workflows for the XRP Ledger",
@@ -7,7 +7,7 @@
   "author": "Florent Uzio",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/florent-uzio/xrpl-mastra-ai.git"
+    "url": "git+https://github.com/florent-uzio/xrpl-mcp.git"
   },
   "type": "module",
   "engines": {
