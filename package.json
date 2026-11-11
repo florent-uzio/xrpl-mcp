@@ -2,7 +2,7 @@
   "name": "@florent-uzio/xrpl-mcp",
   "version": "2.0.0",
   "description": "MCP server exposing XRP Ledger tools and token issuance workflows",
-  "license": "ISC",
+  "license": "MIT",
   "author": "Florent Uzio",
   "repository": {
     "type": "git",
