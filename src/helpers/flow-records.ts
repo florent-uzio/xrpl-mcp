@@ -3,7 +3,6 @@ import { homedir } from 'node:os'
 import path from 'node:path'
 import { Wallet } from 'xrpl'
 import { isTestNetwork } from './networks'
-import { getProjectRoot } from './storage'
 
 /**
  * Persistent records of what a flow (workflow run) created on a test network: wallets, token IDs, tx hashes.
@@ -22,11 +21,11 @@ export type FlowRecord = {
 /** Expands a leading `~` to the home directory, since MCP clients pass env values without going through a shell. */
 const expandHome = (p: string) => (p === '~' || p.startsWith('~/') ? path.join(homedir(), p.slice(1)) : p)
 
-/** `XRPL_RECORDS_DIR` if set (a leading `~` is expanded), otherwise `<project root>/records`. */
+/** `XRPL_RECORDS_DIR` if set (a leading `~` is expanded), otherwise `records` in the working directory. */
 export const getRecordsDir = () =>
   process.env.XRPL_RECORDS_DIR
     ? path.resolve(expandHome(process.env.XRPL_RECORDS_DIR))
-    : path.join(getProjectRoot(), 'records')
+    : path.join(process.cwd(), 'records')
 
 /** The address and seed of a wallet: plain JSON, enough to sign with it again later (Wallet.fromSeed). */
 export type WalletRecord = { address: string; seed: string }

@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 /**
  * The single list of XRPL networks this project knows. Which networks accept wallet seeds, which ones the workflows
- * run on, and the network list in the agent instructions are all derived from it.
+ * run on, and the network list in the server instructions are all derived from it.
  *
  * @see https://xrpl.org/docs/tutorials/public-servers
  */
@@ -87,7 +87,7 @@ const listed = (kind: NetworkKind) =>
     .map(n => (n.note ? `${n.url} (${n.note})` : n.url))
     .join(', ')
 
-/** The network section of the agent instructions. */
+/** The network section of the server instructions. */
 export const networkInstructions = () => {
   const [defaultMainnet] = NETWORKS.filter(n => n.kind === 'mainnet')
   return [

@@ -1,6 +1,6 @@
 import { networkInstructions } from '../helpers/networks'
 
-// Rules shared by the agent and the MCP server. Agent-specific sections (e.g. working memory) are added by the caller.
+// Instructions of the MCP server. The server adds its flow-record rules after them.
 export const XRPL_INSTRUCTIONS = `
     You are an XRP Ledger (XRPL) assistant. Use your tools to query accounts, ledgers, transactions, order books, NFTs, servers and fees, convert values, and submit transactions.
 

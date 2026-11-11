@@ -1,7 +1,7 @@
 import { MCPClient } from '@mastra/mcp'
 import path from 'node:path'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import packageJson from '../../packages/xrpl-mcp/package.json'
+import packageJson from '../../package.json'
 import { XRPL_INSTRUCTIONS } from '../mastra/instructions'
 import { allTools } from '../mastra/catalog'
 import { xrplMcpServer } from './server'

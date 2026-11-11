@@ -28,8 +28,11 @@ jobs:
       - name: Check formatting
         run: npm run format:check
 
+      - name: Typecheck
+        run: npm run typecheck
+
       - name: Run tests
         run: npm test
 
       - name: Build the MCP bundle
-        run: npm run build:mcp
+        run: npm run build

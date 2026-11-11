@@ -3,7 +3,7 @@ import { execSync } from 'node:child_process'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '../..')
+const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const run = command => execSync(command, { cwd: root, encoding: 'utf8' }).trim()
 const refuse = reason => {
   console.error(`Refusing to publish: ${reason}. See RELEASING.md.`)
