@@ -1,6 +1,6 @@
 {
   "name": "@florent-uzio/xrpl-mcp",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "MCP server exposing XRP Ledger tools and token issuance workflows",
   "license": "MIT",
   "author": "Florent Uzio",
