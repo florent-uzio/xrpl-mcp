@@ -1,6 +1,6 @@
 import z from 'zod'
 import { workflowNetworkSchema } from '../helpers'
-import { addressSchema, resultShape, txnResultSchema, walletRecordSchema } from './shared'
+import { addressSchema, resultShape, txnResultSchema, walletRecordSchema } from './results'
 
 /**
  * LendingProtocolV1_1 (closed-ended vaults) is only enabled on devnet for now.

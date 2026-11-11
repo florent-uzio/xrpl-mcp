@@ -7,7 +7,8 @@ import {
   settingsSchema,
   walletsSchema,
 } from './iou-issuance-workflow.types'
-import { errorMessage, fundWallets, submitStep, TxnResult } from './shared'
+import { attempt, fundWallets, submitStep } from './steps'
+import { TxnResult } from './results'
 
 /** Step 1: creates and funds the issuer and holder wallets. */
 const createWallets = createStep({
@@ -18,13 +19,11 @@ const createWallets = createStep({
   execute: async ({ inputData }) => {
     const { network, holders: numHolders } = inputData
 
-    try {
-      const [issuer, ...holders] = await fundWallets(network, numHolders + 1)
+    return attempt('create wallets', async () => {
+      const [issuer, ...holders] = await fundWallets(await getXrplClient(network), numHolders + 1)
 
       return { ...inputData, issuer, holders }
-    } catch (error) {
-      throw new Error(`Failed to create wallets: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -42,7 +41,7 @@ const setupIssuerAccount = createStep({
       return { ...inputData, txnResults: [] }
     }
 
-    try {
+    return attempt('setup issuer account', async () => {
       const client = await getXrplClient(network)
       const txnResults: TxnResult[] = []
 
@@ -63,9 +62,7 @@ const setupIssuerAccount = createStep({
       }
 
       return { ...inputData, txnResults }
-    } catch (error) {
-      throw new Error(`Failed to setup issuer account: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -78,7 +75,7 @@ const createTrustLines = createStep({
   execute: async ({ inputData }) => {
     const { issuer, holders, network, trustline, txnResults } = inputData
 
-    try {
+    return attempt('create trust lines', async () => {
       const currencyHex = currencyCodeToHex(trustline.currency)
       const client = await getXrplClient(network)
 
@@ -100,9 +97,7 @@ const createTrustLines = createStep({
         trustline: { ...trustline, currency: currencyHex },
         txnResults: [...txnResults, ...results],
       }
-    } catch (error) {
-      throw new Error(`Failed to create trust lines: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -115,7 +110,7 @@ const mintTokens = createStep({
   execute: async ({ inputData }) => {
     const { issuer, holders, network, mintAmount, trustline, txnResults } = inputData
 
-    try {
+    return attempt('mint tokens', async () => {
       const client = await getXrplClient(network)
       const results: TxnResult[] = []
 
@@ -138,9 +133,7 @@ const mintTokens = createStep({
       }
 
       return { ...inputData, txnResults: [...txnResults, ...results] }
-    } catch (error) {
-      throw new Error(`Failed to mint tokens: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -153,7 +146,7 @@ const recordResults = createStep({
   execute: async ({ inputData }) => {
     const { issuer, holders, network, trustline, mintAmount, issuerSettings, txnResults } = inputData
 
-    try {
+    return attempt('save the record', async () => {
       const { record, path } = await saveFlowRecord({
         flow: 'iou-issuance',
         network,
@@ -177,9 +170,7 @@ const recordResults = createStep({
         recordId: record.id,
         recordPath: path,
       }
-    } catch (error) {
-      throw new Error(`Failed to save the record: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 

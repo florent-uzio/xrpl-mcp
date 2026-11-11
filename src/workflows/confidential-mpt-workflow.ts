@@ -24,7 +24,8 @@ import {
   confidentialMptWorkflowSchema,
   confidentialStateSchema,
 } from './confidential-mpt-workflow.types'
-import { errorMessage, submitStep, TxnResult } from './shared'
+import { attempt, fundWallets, submitStep } from './steps'
+import { TxnResult } from './results'
 
 /** Ledger flags equal the creation flags (e.g. lsfMPTRequireAuth = tfMPTRequireAuth). lsfMPTAuthorized: set on an MPToken once the issuer authorized the holder. Not exported by xrpl.js. */
 const MPTOKEN_AUTHORIZED = 0x2
@@ -75,12 +76,12 @@ const setupWallets = createStep({
   execute: async ({ inputData }) => {
     const { network, issuer, holder, send } = inputData
 
-    try {
+    return attempt('set up wallets', async () => {
       if ([issuer, holder, send?.destination].some(account => account?.source === 'seed')) assertSeedAllowed(network)
 
       const client = await getXrplClient(network)
       const loadOrFund = async (account: Account) =>
-        toWalletRecord(account.source === 'seed' ? Wallet.fromSeed(account.seed) : (await client.fundWallet()).wallet)
+        account.source === 'seed' ? toWalletRecord(Wallet.fromSeed(account.seed)) : (await fundWallets(client, 1))[0]
 
       const [issuerWallet, holderWallet, destinationWallet] = await Promise.all([
         loadOrFund(issuer),
@@ -98,9 +99,7 @@ const setupWallets = createStep({
           destination: send ? confidentialSeedOf(send.destination) : undefined,
         },
       }
-    } catch (error) {
-      throw new Error(`Failed to set up wallets: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -118,7 +117,7 @@ const setupIssuance = createStep({
     const { issuerWallet: issuer, network, issuance: issuanceRequest, auditor, confidentialSeeds } = inputData
     const txnResults: TxnResult[] = []
 
-    try {
+    return attempt('set up the issuance', async () => {
       const client = await getXrplClient(network)
       let mptIssuanceId: string
 
@@ -169,9 +168,7 @@ const setupIssuance = createStep({
         mptIssuanceId,
         txnResults,
       }
-    } catch (error) {
-      throw new Error(`Failed to set up the issuance: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -184,7 +181,7 @@ const optIn = createStep({
   execute: async ({ inputData }) => {
     const { network, mptIssuanceId, txnResults } = inputData
 
-    try {
+    return attempt('opt in', async () => {
       const client = await getXrplClient(network)
       const results: TxnResult[] = []
 
@@ -200,9 +197,7 @@ const optIn = createStep({
       }
 
       return { ...inputData, txnResults: [...txnResults, ...results] }
-    } catch (error) {
-      throw new Error(`Failed to opt in: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -215,7 +210,7 @@ const authorize = createStep({
   execute: async ({ inputData }) => {
     const { issuerWallet: issuer, network, mptIssuanceId, txnResults } = inputData
 
-    try {
+    return attempt('authorize', async () => {
       const client = await getXrplClient(network)
       const issuance = await fetchMPTokenIssuance(client, mptIssuanceId)
       if (!(issuance.Flags & MPTokenIssuanceCreateFlags.tfMPTRequireAuth)) return inputData
@@ -235,9 +230,7 @@ const authorize = createStep({
       }
 
       return { ...inputData, txnResults: [...txnResults, ...results] }
-    } catch (error) {
-      throw new Error(`Failed to authorize: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -250,7 +243,7 @@ const mintToHolder = createStep({
   execute: async ({ inputData }) => {
     const { issuerWallet: issuer, holderWallet, network, convertAmount, mptIssuanceId, txnResults } = inputData
 
-    try {
+    return attempt('mint MPT', async () => {
       const client = await getXrplClient(network)
       const mptoken = await fetchMPToken(client, holderWallet.address, mptIssuanceId)
       const missing = BigInt(convertAmount) - BigInt(mptoken.MPTAmount ?? 0)
@@ -265,9 +258,7 @@ const mintToHolder = createStep({
       const { result } = await submitStep(client, tx, issuer, `Minted ${missing} to ${holderWallet.address}`)
 
       return { ...inputData, txnResults: [...txnResults, result] }
-    } catch (error) {
-      throw new Error(`Failed to mint MPT: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -284,7 +275,7 @@ const convert = createStep({
   execute: async ({ inputData }) => {
     const { network, convertAmount, mptIssuanceId, txnResults } = inputData
 
-    try {
+    return attempt('convert', async () => {
       const client = await getXrplClient(network)
       const results: TxnResult[] = []
 
@@ -309,9 +300,7 @@ const convert = createStep({
       }
 
       return { ...inputData, txnResults: [...txnResults, ...results] }
-    } catch (error) {
-      throw new Error(`Failed to convert: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -324,7 +313,7 @@ const mergeInbox = createStep({
   execute: async ({ inputData }) => {
     const { holderWallet, network, mptIssuanceId, txnResults } = inputData
 
-    try {
+    return attempt('merge the inbox', async () => {
       const client = await getXrplClient(network)
       const tx = await prepareConfidentialMergeInbox(client, {
         account: holderWallet.address,
@@ -333,9 +322,7 @@ const mergeInbox = createStep({
       const { result } = await submitStep(client, tx, holderWallet, 'The holder merged its confidential inbox')
 
       return { ...inputData, txnResults: [...txnResults, result] }
-    } catch (error) {
-      throw new Error(`Failed to merge the inbox: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -351,7 +338,7 @@ const send = createStep({
     const request = inputData.send
     if (!request || !destinationWallet) return inputData
 
-    try {
+    return attempt('send confidentially', async () => {
       const client = await getXrplClient(network)
       const tx = await prepareConfidentialSend(client, {
         account: holderWallet.address,
@@ -380,9 +367,7 @@ const send = createStep({
       )
 
       return { ...inputData, txnResults: [...txnResults, sent, merged] }
-    } catch (error) {
-      throw new Error(`Failed to send confidentially: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -397,7 +382,7 @@ const convertBack = createStep({
     const request = inputData.convertBack
     if (!request) return inputData
 
-    try {
+    return attempt('convert back', async () => {
       const client = await getXrplClient(network)
       const tx = await prepareConfidentialConvertBack(client, {
         account: holderWallet.address,
@@ -413,9 +398,7 @@ const convertBack = createStep({
       )
 
       return { ...inputData, txnResults: [...txnResults, result] }
-    } catch (error) {
-      throw new Error(`Failed to convert back: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -431,7 +414,7 @@ const recordResults = createStep({
   execute: async ({ inputData }) => {
     const { issuerWallet: issuer, network, mptIssuanceId, confidentialSeeds, txnResults } = inputData
 
-    try {
+    return attempt('record the results', async () => {
       const client = await getXrplClient(network)
       const balances: Record<string, { publicBalance: string; confidentialSpendingBalance: string }> = {}
 
@@ -479,9 +462,7 @@ const recordResults = createStep({
         recordId: record.id,
         recordPath: path,
       }
-    } catch (error) {
-      throw new Error(`Failed to record the results: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
