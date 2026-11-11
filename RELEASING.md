@@ -1,6 +1,6 @@
 # Releasing @florent-uzio/xrpl-mcp
 
-The MCP server is published to npm from `packages/xrpl-mcp/`. Releases are driven by [Changesets](https://github.com/changesets/changesets) and published by GitHub Actions from `main`. Nobody publishes from a laptop.
+The MCP server is published to npm from the repo root. Releases are driven by [Changesets](https://github.com/changesets/changesets) and published by GitHub Actions from `main`. Nobody publishes from a laptop.
 
 ## Choosing the version (semver)
 
@@ -8,12 +8,12 @@ The MCP server is published to npm from `packages/xrpl-mcp/`. Releases are drive
 - **Minor**: new tools, workflows or environment variables.
 - **Major**: removed or renamed tools, changed tool inputs, or a behaviour change that breaks existing Claude Code setups (for example the seed policy or the default records folder).
 
-Changes that do not reach the published bundle (the Mastra app, evals, docs) need no changeset.
+Changes that do not reach the published bundle (tests, docs, CI) need no changeset.
 
 ## Release steps
 
 1. **In your PR**, run `npm run changeset`, pick `@florent-uzio/xrpl-mcp` and the bump, and write one or two sentences for users. Commit the generated `.changeset/*.md` file with the PR.
-2. **Merge the PR.** The [Release workflow](.github/workflows/release.yml) opens (or updates) a `chore: version packages` PR that bumps `packages/xrpl-mcp/package.json`, writes `packages/xrpl-mcp/CHANGELOG.md` and deletes the consumed changesets. Several merged PRs pile up in the same version PR.
+2. **Merge the PR.** The [Release workflow](.github/workflows/release.yml) opens (or updates) a `chore: version packages` PR that bumps `package.json`, writes `CHANGELOG.md` and deletes the consumed changesets. Several merged PRs pile up in the same version PR.
 3. **Merge the version PR** when you want to release. The workflow then runs `changeset publish`, which:
    - runs the `prepublishOnly` guard (see below) and the `prepack` build of the bundle,
    - publishes to npm with provenance, through npm trusted publishing (OIDC), so no npm token is stored anywhere,
@@ -21,11 +21,11 @@ Changes that do not reach the published bundle (the Mastra app, evals, docs) nee
 
 ## The `prepublishOnly` guard
 
-`packages/xrpl-mcp/release-guard.mjs` runs before every `npm publish` and refuses unless:
+`scripts/release-guard.mjs` runs before every `npm publish` and refuses unless:
 
 - the branch is `main` (`GITHUB_REF_NAME` in GitHub Actions, the current branch locally),
 - the working tree is clean,
-- `npm test` passes at the repo root.
+- `npm test` passes.
 
 ## One-time setup
 

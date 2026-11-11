@@ -1,6 +1,6 @@
-# XRPL Mastra AI
+# xrpl-mcp
 
-An agent, tools and workflows that let a language model query and transact on the XRP Ledger, also served as an MCP server.
+An MCP server whose tools and workflows let an AI client such as Claude Code query and transact on the XRP Ledger.
 
 ## Language
 

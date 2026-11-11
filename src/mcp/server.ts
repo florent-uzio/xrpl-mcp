@@ -2,7 +2,7 @@ import type { ToolsInput } from '@mastra/core/agent'
 import { createTool } from '@mastra/core/tools'
 import { MCPServer } from '@mastra/mcp'
 import { z } from 'zod'
-import packageJson from '../../packages/xrpl-mcp/package.json'
+import packageJson from '../../package.json'
 import { XRPL_INSTRUCTIONS } from '../mastra/instructions'
 import { allTools, workflows } from '../mastra/catalog'
 
@@ -36,6 +36,5 @@ export const xrplMcpServer = new MCPServer({
   description: 'XRP Ledger tools and token issuance workflows',
   instructions: XRPL_INSTRUCTIONS + MEMORY_INSTRUCTIONS,
   tools,
-  // Only tools and workflows: exposing the agent would trigger model calls on the owner's key.
   workflows,
 })

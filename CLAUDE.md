@@ -10,4 +10,13 @@ Uses the five default triage labels (`needs-triage`, `needs-info`, `ready-for-ag
 
 ### Domain docs
 
-Single-context: one `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+Single-context: one `GLOSSARY.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+
+## Conventions
+
+- Single npm package, MCP server only (stdio), bundled with esbuild into one bin. No Mastra agent or Studio.
+- Mastra provides `createTool`, `createWorkflow` and `MCPServer`; schemas are Zod 4. Every dependency is a devDependency, because the bundle carries them all.
+- Every tool exported from `src/mastra/tools` is exposed by the server (`src/mastra/catalog.ts`); workflows are exposed as `run_<name>`.
+- Wallet seeds are refused outside test networks. On mainnet, flow records hold addresses and public keys only.
+- Every user-facing change comes with a changeset (`npm run changeset`). See `RELEASING.md`.
+- Checks before a PR: `npm run format:check && npm run typecheck && npm test`.

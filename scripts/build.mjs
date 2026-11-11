@@ -4,14 +4,14 @@ import { copyFileSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const pkgDir = dirname(fileURLToPath(import.meta.url))
-const root = join(pkgDir, '../..')
+const root = join(dirname(fileURLToPath(import.meta.url)), '..')
+const outDir = join(root, 'dist')
 
 const { metafile } = await build({
   // metafile input paths are relative to this
   absWorkingDir: root,
   entryPoints: [join(root, 'src/mcp/stdio.ts')],
-  outfile: join(pkgDir, 'dist/xrpl-mcp.js'),
+  outfile: join(outDir, 'xrpl-mcp.js'),
   bundle: true,
   minify: true,
   platform: 'node',
@@ -37,11 +37,7 @@ const notices = [...packageDirs].sort().map(dir => {
   const text = licenseFile ? readFileSync(join(dir, licenseFile), 'utf8').trim() : `License: ${license}`
   return `${name}@${version} (${relative(root, dir)})\n\n${text}`
 })
-writeFileSync(join(pkgDir, 'dist/THIRD_PARTY_LICENSES.txt'), notices.join(`\n\n${'-'.repeat(80)}\n\n`) + '\n')
+writeFileSync(join(outDir, 'THIRD_PARTY_LICENSES.txt'), notices.join(`\n\n${'-'.repeat(80)}\n\n`) + '\n')
 
 // The confidential MPT crypto is WebAssembly that its loader reads from next to the bundle.
-copyFileSync(join(root, 'node_modules/@xrplf/mpt-crypto/wasm/mpt_crypto.wasm'), join(pkgDir, 'dist/mpt_crypto.wasm'))
-
-for (const file of ['README.md', 'LICENSE']) {
-  copyFileSync(join(root, file), join(pkgDir, file))
-}
+copyFileSync(join(root, 'node_modules/@xrplf/mpt-crypto/wasm/mpt_crypto.wasm'), join(outDir, 'mpt_crypto.wasm'))

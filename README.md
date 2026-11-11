@@ -1,6 +1,6 @@
-# XRPL Mastra AI
+# xrpl-mcp
 
-XRP Ledger tools, workflows and an agent built with [Mastra](https://mastra.ai/) and [xrpl.js](https://js.xrpl.org/).
+An MCP server, [`@florent-uzio/xrpl-mcp`](https://www.npmjs.com/package/@florent-uzio/xrpl-mcp), that lets an AI client such as Claude Code query and transact on the XRP Ledger. It runs over stdio and is built with [Mastra](https://mastra.ai/) and [xrpl.js](https://js.xrpl.org/). See `GLOSSARY.md` for the vocabulary.
 
 - **122 tools**:
   - query the ledger (accounts, ledgers, transactions, order books, AMMs, NFTs, vaults, servers, fees)
@@ -8,12 +8,10 @@ XRP Ledger tools, workflows and an agent built with [Mastra](https://mastra.ai/)
   - create and fund wallets
   - convert units and currency codes
 - **4 workflows** for multi-step setups on test networks: IOU issuance, MPT issuance, confidential MPT and lending setup.
-- **An agent** that uses them in Mastra Studio.
-- **An MCP server**, [`@florent-uzio/xrpl-mcp`](https://www.npmjs.com/package/@florent-uzio/xrpl-mcp), that gives the same tools and workflows to Claude Code.
 
-## Use it from Claude Code (MCP server)
+## Use it from Claude Code
 
-You only need Node.js 22.13 or later. No model API key is required: the server exposes the tools and workflows, not the agent, so Claude Code does the reasoning.
+You only need Node.js 22.13 or later. No model API key is required: Claude Code does the reasoning and calls the tools.
 
 ```bash
 claude mcp add xrpl -- npx -y @florent-uzio/xrpl-mcp
@@ -40,18 +38,6 @@ To run the server from a clone of this repo instead:
 claude mcp add xrpl -- npm --prefix "$(pwd)" run --silent mcp
 ```
 
-## Use the agent in Mastra Studio
-
-```bash
-cp .env.example .env   # set ANTHROPIC_API_KEY
-npm install
-npm run dev            # opens Mastra Studio
-```
-
-The agent uses `anthropic/claude-haiku-5-5` by default (`DEFAULT_MODEL` in `src/mastra/agents/xrpl-agent.ts`).
-
-The agent always has 6 core tools: account info, server info, and the XRP and currency code conversions. It finds and loads the other tools on demand, with Mastra's `ToolSearchProcessor`.
-
 ## Networks and secrets
 
 - Mainnet is the default. Say "testnet" or "devnet", or give a `wss://` URL, to use another network. Every known network is listed in `src/helpers/networks.ts`.
@@ -60,13 +46,12 @@ The agent always has 6 core tools: account info, server info, and the XRP and cu
 
 | Variable                   | Purpose                                                                                                                                                                                                                           |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ANTHROPIC_API_KEY`        | Model key for the agent and the evals. `OPENAI_API_KEY` and `GROQ_API_KEY` are only needed to try other models.                                                                                                                   |
-| `XRPL_RECORDS_DIR`         | Folder for flow records. The MCP server defaults to `~/.xrpl-mcp/records`. Set the same folder in `.env` so Studio shares the records.                                                                                            |
+| `XRPL_RECORDS_DIR`         | Folder for flow records. Defaults to `~/.xrpl-mcp/records`.                                                                                                                                                                       |
 | `XRPL_EXTRA_TEST_NETWORKS` | Comma-separated URLs of other test networks where seeds are allowed, e.g. a local node. Pass it to the MCP server with `claude mcp add xrpl --env XRPL_EXTRA_TEST_NETWORKS=ws://localhost:6006 -- npx -y @florent-uzio/xrpl-mcp`. |
 
 ## Workflows
 
-The MCP server exposes each workflow as `run_<name>`. The agent sees it as `workflow-<name>`.
+The server exposes each workflow as `run_<name>`.
 
 | Workflow           | Network         | What it does                                                                                                                                                     |
 | ------------------ | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -105,15 +90,15 @@ export const submitPaymentTool = createTransactionTool<Payment>({
 
 Query tools use `defineMethodTool` (`src/mastra/tools/methods/shared/method-tool.ts`), with the method name and the request and result schemas.
 
-Export the new tool from its folder's `index.ts`. `src/mastra/catalog.ts` picks up every tool exported from `src/mastra/tools`, so the agent and the MCP server both get it. To send a tool to the agent on every request instead of on demand, add it to `coreTools` in the same file.
+Export the new tool from its folder's `index.ts`. `src/mastra/catalog.ts` picks up every tool exported from `src/mastra/tools`, so the server exposes it.
 
 ## Development
 
 ```bash
 npm test               # unit tests
+npm run typecheck      # tsc
 npm run format         # prettier
-npm run eval           # accuracy, cost and latency of the agent (see evals/README.md)
-npm run build:mcp      # build the MCP package
+npm run build          # bundle the server into dist/
 ```
 
-Domain terms are in [CONTEXT.md](https://github.com/florent-uzio/xrpl-mcp/blob/main/CONTEXT.md). Releases of the MCP package follow [RELEASING.md](https://github.com/florent-uzio/xrpl-mcp/blob/main/RELEASING.md).
+Domain terms are in [GLOSSARY.md](https://github.com/florent-uzio/xrpl-mcp/blob/main/GLOSSARY.md). Releases of the MCP package follow [RELEASING.md](https://github.com/florent-uzio/xrpl-mcp/blob/main/RELEASING.md).
