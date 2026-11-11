@@ -23,12 +23,12 @@ export type TxnResult = z.infer<typeof txnResultSchema>
  */
 /**
  * Fields every workflow result ends with. Results carry addresses only: seeds stay in the record file
- * (get-flow-records), so they never reach the model or an MCP client by default.
+ * (getFlowRecords), so they never reach the model or an MCP client by default.
  */
 export const resultShape = {
   network: z.string(),
   txnResults: z.array(txnResultSchema).describe('Transactions of the run'),
-  recordId: z.string().describe('Id of the saved record, usable with the get-flow-records tool (it holds the seeds)'),
+  recordId: z.string().describe('Id of the saved record, usable with the getFlowRecords tool (it holds the seeds)'),
   recordPath: z.string().describe('Path of the saved record file'),
 }
 

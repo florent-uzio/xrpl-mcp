@@ -8,7 +8,7 @@ type CreateToolConfig = Parameters<typeof createTool>[0]
  * Configuration for creating a transaction tool
  */
 export type TransactionToolConfig<T extends SubmittableTransaction, S extends FactorySchema> = {
-  /** The tool ID (e.g., 'submit-payment', 'submit-account-set') */
+  /** The tool ID (e.g., 'submitPayment', 'submitAccountSet') */
   toolId: string
   /** Detailed description of the transaction and its fields */
   description: string
@@ -63,7 +63,7 @@ export const baseTransactionSchema = z.object({
   seed: z
     .string()
     .describe(
-      'Seed of the Account, test networks only. On mainnet, sign the transaction elsewhere and use submit-signed-blob',
+      'Seed of the Account, test networks only. On mainnet, sign the transaction elsewhere and use submitSignedBlob',
     ),
 })
 

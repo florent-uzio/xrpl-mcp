@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, xrplAddressSchema } from '../../../../helpers'
 import { defineMethodTool } from '../../shared'
 
 export const getAccountCurrenciesTool = defineMethodTool({
-  id: 'get-account-currencies',
+  id: 'getAccountCurrencies',
   command: 'account_currencies',
   description: `List currency codes an account can send or receive, derived from its trust lines. Approximate: it ignores freezes and authorization.`,
   request: z.object({

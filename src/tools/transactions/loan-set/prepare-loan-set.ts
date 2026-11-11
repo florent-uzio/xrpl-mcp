@@ -32,20 +32,20 @@ export const prepareLoanSet = async (client: Client, { txn, expiryLedgers }: Pre
 }
 
 export const prepareLoanSetTool = createTool({
-  id: 'prepare-loan-set',
+  id: 'prepareLoanSet',
   description: `Autofill a LoanSet and return it unsigned, for the two parties to sign on their own machines. Read-only: no seed, nothing is signed or submitted. Works on every network, mainnet included.
 
-On testnet/devnet with both seeds, use sign-loan-set instead.
+On testnet/devnet with both seeds, use signLoanSet instead.
 
 Input:
 - network: websocket URL
-- txn: the LoanSet terms (same fields as submit-loan-set), with Account and Counterparty set. Do not set CounterpartySignature. Set TicketSequence to use a Ticket.
+- txn: the LoanSet terms (same fields as submitLoanSet), with Account and Counterparty set. Do not set CounterpartySignature. Set TicketSequence to use a Ticket.
 - expiryLedgers: ledgers until the transaction expires (default 200, about 10 minutes). Ignored when txn.LastLedgerSequence is set.
 
 Output: the unsigned LoanSet with Fee, Sequence and LastLedgerSequence set. Keep every field unchanged, then:
 1. Account signs it (xrpl.js: wallet.sign(txn)) and sends the tx_blob to the counterparty
 2. The counterparty adds CounterpartySignature with the LoanSet counterparty prefix (xrpl.js: signLoanSetByCounterparty(wallet, tx_blob)). A normal signature is rejected (temBAD_SIGNER)
-3. Either party submits the final tx_blob with submit-signed-blob before LastLedgerSequence
+3. Either party submits the final tx_blob with submitSignedBlob before LastLedgerSequence
 
 If Account sends any other transaction in between, the Sequence is used up and the LoanSet fails (tefPAST_SEQ). Use a Ticket (TicketSequence) to avoid this.
 

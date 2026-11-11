@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitSponsorshipSetTool = createTransactionTool<SponsorshipSet>({
-  toolId: 'submit-sponsorship-set',
+  toolId: 'submitSponsorshipSet',
   description: `Submit a SponsorshipSet transaction to create, update or delete a Sponsorship, where a sponsor pre-funds a sponsee's fees and reserves. Requires the Sponsor amendment.
 
 Set exactly ONE of Sponsee (Account is the sponsor) or CounterpartySponsor (Account is the sponsee). Budgets use deltas: FeeAmountDelta (drops, string) and RemainingOwnerCountDelta (integer), positive adds and negative removes; both must be positive when creating. MaxFee caps the fee per sponsored transaction.

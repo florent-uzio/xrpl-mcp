@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, paginationMarkerSchema, xrplAddressSchema } from 
 import { defineMethodTool } from '../../shared'
 
 export const getAccountChannelsTool = defineMethodTool({
-  id: 'get-account-channels',
+  id: 'getAccountChannels',
   command: 'account_channels',
   description: `List Payment Channels where the account is the source (not the destination).
 

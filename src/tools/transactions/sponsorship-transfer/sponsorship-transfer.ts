@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitSponsorshipTransferTool = createTransactionTool<SponsorshipTransfer>({
-  toolId: 'submit-sponsorship-transfer',
+  toolId: 'submitSponsorshipTransfer',
   description: `Submit a SponsorshipTransfer transaction to create, reassign or end reserve sponsorship of a ledger object or account. Requires the Sponsor amendment. Cannot be delegated.
 
 Flags must be exactly ONE: tfSponsorshipEnd 65536 (reserve returns to the owner), tfSponsorshipCreate 131072 (sponsor an unsponsored object/account), tfSponsorshipReassign 262144 (move to a new sponsor).

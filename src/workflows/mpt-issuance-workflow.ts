@@ -213,7 +213,7 @@ const recordResults = createStep({
  */
 const mptIssuanceWorkflow = createWorkflow({
   id: 'mpt-issuance-workflow',
-  description: `Issues an MPT (Multi-Purpose Token) on an XRPL testnet or devnet: creates and funds an issuer and N holder wallets, creates the MPT issuance with the requested flags and properties (e.g. tfMPTRequireAuth, tfMPTCanTransfer, transfer fee, max supply, metadata), has each holder opt in, authorizes holders when tfMPTRequireAuth is set, mints to each holder, then saves a record (wallet addresses and seeds, MPTokenIssuanceID, tx hashes) retrievable with the get-flow-records tool. Not for IOUs (trust line tokens).
+  description: `Issues an MPT (Multi-Purpose Token) on an XRPL testnet or devnet: creates and funds an issuer and N holder wallets, creates the MPT issuance with the requested flags and properties (e.g. tfMPTRequireAuth, tfMPTCanTransfer, transfer fee, max supply, metadata), has each holder opt in, authorizes holders when tfMPTRequireAuth is set, mints to each holder, then saves a record (wallet addresses and seeds, MPTokenIssuanceID, tx hashes) retrievable with the getFlowRecords tool. Not for IOUs (trust line tokens).
 ${supportedNetworksText(['testnet', 'devnet'])}`,
   inputSchema: mptIssuanceWorkflowSchema,
   outputSchema: mptIssuanceResultSchema,

@@ -11,25 +11,25 @@ const account = 'rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh'
 const base = { network: 'wss://s.altnet.rippletest.net:51233', seed: 'sEdTM1uX8pu2do5XvTnutH6HsouMaM2' }
 
 describe('transaction tools', () => {
-  it('has a unique submit-* id per tool', () => {
+  it('has a unique submit id per tool', () => {
     const ids = submitTools.map(([, tool]) => tool.id)
 
     expect(new Set(ids).size).toBe(ids.length)
-    ids.forEach(id => expect(id).toMatch(/^submit-[a-z-]+$/))
+    ids.forEach(id => expect(id).toMatch(/^submit[A-Z][A-Za-z]+$/))
   })
 
   it('rejects empty input for every tool', () => {
     submitTools.forEach(([name, tool]) => expect(tool.inputSchema.safeParse({}).success, name).toBe(false))
   })
 
-  it('requires a seed: a signed blob goes to submit-signed-blob instead', () => {
+  it('requires a seed: a signed blob goes to submitSignedBlob instead', () => {
     const txn = { Account: account, TransactionType: 'TicketCreate', TicketCount: 3 }
     const ticketCreate = tools.submitTicketCreateTool as unknown as (typeof submitTools)[number][1]
 
     expect(ticketCreate.inputSchema.safeParse({ network: base.network, signature: 'DEADBEEF', txn }).success).toBe(
       false,
     )
-    // submit-signed-blob is the one submit-* tool that takes no transaction fields
+    // submitSignedBlob is the one submit tool that takes no transaction fields
     submitTools
       .filter(([name]) => name !== 'submitSignedBlobTool')
       .forEach(([name, tool]) =>

@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitLoanDeleteTool = createTransactionTool<LoanDelete>({
-  toolId: 'submit-loan-delete',
+  toolId: 'submitLoanDelete',
   description: `Submit a LoanDelete transaction to delete a loan. Either the borrower or the loan broker owner can send it, and the loan must have no outstanding payments due. Requires the LendingProtocol amendment.
 
 Errors: tecHAS_OBLIGATIONS (payments still due), tecNO_PERMISSION (neither borrower nor broker owner), tecNO_ENTRY.`,

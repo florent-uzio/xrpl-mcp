@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitLoanBrokerCoverClawbackTool = createTransactionTool<LoanBrokerCoverClawback>({
-  toolId: 'submit-loan-broker-cover-clawback',
+  toolId: 'submitLoanBrokerCoverClawback',
   description: `Submit a LoanBrokerCoverClawback transaction to claw back first-loss capital from a loan broker. Only the issuer of the vault's asset can send it. Requires the LendingProtocol amendment.
 
 Provide LoanBrokerID, Amount or both. LoanBrokerID is required when Amount is an MPT or a token whose issuer is the Account. For a token Amount, the issuer field is the token issuer, not the broker owner. If Amount is 0 or omitted, the cover is clawed back down to its minimum (DebtTotal * CoverRateMinimum); it can never go below that minimum.

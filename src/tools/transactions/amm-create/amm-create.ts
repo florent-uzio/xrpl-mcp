@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitAmmCreateTool = createTransactionTool<AMMCreate>({
-  toolId: 'submit-amm-create',
+  toolId: 'submitAmmCreate',
   description: `Submit an AMMCreate transaction to create an AMM pool for an asset pair. The creator receives LP tokens.
 
 Fields:

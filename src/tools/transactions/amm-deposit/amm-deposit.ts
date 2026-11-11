@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitAmmDepositTool = createTransactionTool<AMMDeposit>({
-  toolId: 'submit-amm-deposit',
+  toolId: 'submitAmmDeposit',
   description: `Submit an AMMDeposit transaction to add assets to an AMM pool and receive LP tokens.
 
 Fields:

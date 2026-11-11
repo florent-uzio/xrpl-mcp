@@ -18,7 +18,7 @@ const toWalletOutput = (wallet: Wallet) => ({
 })
 
 export const createWalletTool = createTool({
-  id: 'create-wallet',
+  id: 'createWallet',
   description: `Generate a new XRPL wallet (address, seed, keys) locally. No network call and the wallet is not funded or activated on-ledger.
 
 Input:
@@ -40,7 +40,7 @@ Treat the seed as a secret. Only the address is safe to share.`,
 })
 
 export const fundWalletWithFaucetTool = createTool({
-  id: 'fund-wallet-with-faucet',
+  id: 'fundWalletWithFaucet',
   description: `Fund a wallet with test XRP from a faucet. Testnet/devnet only, never mainnet. If no network is given, use a testnet websocket URL.
 
 Input:

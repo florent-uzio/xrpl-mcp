@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitAmmWithdrawTool = createTransactionTool<AMMWithdraw>({
-  toolId: 'submit-amm-withdraw',
+  toolId: 'submitAmmWithdraw',
   description: `Submit an AMMWithdraw transaction to redeem LP tokens for assets from an AMM pool.
 
 Fields:

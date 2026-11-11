@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import * as tools from '../index'
 
 const queryTools = Object.entries(tools).filter(
-  ([name]) => /^(get.+|ping)Tool$/.test(name) && name !== 'getFlowRecordsTool',
+  ([name]) => /^(get.+|ping)Tool$/.test(name) && !['getFlowRecordsTool', 'getMcpVersionTool'].includes(name),
 ) as unknown as [string, { id: string; inputSchema: { safeParse: (input: unknown) => { success: boolean } } }][]
 
 const network = 'wss://s.altnet.rippletest.net:51233'
@@ -40,7 +40,7 @@ describe('query tools', () => {
     expect(getTool(name).inputSchema.safeParse({ network, request }).success).toBe(false)
   })
 
-  it('get-ripple-path-find accepts value "-1" for the largest possible amount', () => {
+  it('getRipplePathFind accepts value "-1" for the largest possible amount', () => {
     const destination = 'rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe'
     const request = (value: string) => ({
       network,

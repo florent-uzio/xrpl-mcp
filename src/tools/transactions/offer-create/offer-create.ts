@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitOfferCreateTool = createTransactionTool<OfferCreate>({
-  toolId: 'submit-offer-create',
+  toolId: 'submitOfferCreate',
   description: `Submit an OfferCreate transaction to place an order on the XRPL DEX. It matches existing offers first, and any unfilled remainder stays in the ledger.
 
 TakerGets is what you sell. TakerPays is what you buy. XRP is a string in drops. Tokens are {currency, issuer, value}. You cannot trade an asset for itself, and both amounts must be positive.

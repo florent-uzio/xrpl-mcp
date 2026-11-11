@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { defineMethodTool } from '../../shared'
 
 export const getChannelVerifyTool = defineMethodTool({
-  id: 'get-channel-verify',
+  id: 'getChannelVerify',
   command: 'channel_verify',
   description: `Check whether a payment channel claim signature is valid for a given channel and amount. Pure verification: no secret is needed and nothing is submitted.`,
   request: z.object({

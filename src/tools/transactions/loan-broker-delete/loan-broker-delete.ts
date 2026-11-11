@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitLoanBrokerDeleteTool = createTransactionTool<LoanBrokerDelete>({
-  toolId: 'submit-loan-broker-delete',
+  toolId: 'submitLoanBrokerDelete',
   description: `Submit a LoanBrokerDelete transaction to delete a loan broker. Only the broker owner can send it. Requires the LendingProtocol amendment.
 
 The broker must have no active loans, and its pseudo-account must hold no balance and own no entries. Withdraw remaining first-loss capital with LoanBrokerCoverWithdraw first.

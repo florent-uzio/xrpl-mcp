@@ -12,7 +12,7 @@ const txResultShape = {
 }
 
 export const getTxTool = defineMethodTool({
-  id: 'get-tx',
+  id: 'getTx',
   command: 'tx',
   description: `Look up a transaction by its hash: contents, validation status and metadata (result code "meta.TransactionResult", e.g. tesSUCCESS). If validated is false the outcome is not final yet. Use min_ledger/max_ledger to tell the server which range to search so it can answer "not found" definitively.`,
   request: z.object({
@@ -25,9 +25,9 @@ export const getTxTool = defineMethodTool({
 })
 
 export const getTransactionEntryTool = defineMethodTool({
-  id: 'get-transaction-entry',
+  id: 'getTransactionEntry',
   command: 'transaction_entry',
-  description: `Look up a transaction by hash inside ONE specific ledger. Unlike get-tx, the ledger is required. Use get-tx unless you already know the ledger.`,
+  description: `Look up a transaction by hash inside ONE specific ledger. Unlike getTx, the ledger is required. Use getTx unless you already know the ledger.`,
   request: z.object({
     tx_hash: z.string().length(64).describe('64-character hex transaction hash'),
     ledger_index: z

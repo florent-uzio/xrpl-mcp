@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitAccountDeleteTool = createTransactionTool<AccountDelete>({
-  toolId: 'submit-account-delete',
+  toolId: 'submitAccountDelete',
   description: `Submit an AccountDelete transaction to permanently delete the sender account and send its remaining XRP to Destination.
 
 WARNING: this is irreversible and destroys the account. It cannot be undone, although the address can be re-funded later as a new account.

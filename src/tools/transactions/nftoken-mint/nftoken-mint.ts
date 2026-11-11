@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitNFTokenMintTool = createTransactionTool<NFTokenMint>({
-  toolId: 'submit-nftoken-mint',
+  toolId: 'submitNFTokenMint',
   description: `Submit an NFTokenMint transaction to create an NFT. Flags are immutable after minting.
 
 Flags: tfBurnable (1), tfOnlyXRP (2), tfTransferable (8), tfMutable (16). tfTrustLine (4) is deprecated.

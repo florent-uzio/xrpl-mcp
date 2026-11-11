@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitCheckCreateTool = createTransactionTool<CheckCreate>({
-  toolId: 'submit-check-create',
+  toolId: 'submitCheckCreate',
   description: `Submit a CheckCreate transaction to create a Check: a deferred payment the Destination can later cash with CheckCash. No funds move until it is cashed.
 
 Fields:

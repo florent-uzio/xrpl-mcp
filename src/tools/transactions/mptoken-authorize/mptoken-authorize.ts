@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitMPTokenAuthorizeTool = createTransactionTool<MPTokenAuthorize>({
-  toolId: 'submit-mptoken-authorize',
+  toolId: 'submitMPTokenAuthorize',
   description: `Submit an MPTokenAuthorize transaction. Used in two ways:
 - Holder opt-in: the holder sends it with MPTokenIssuanceID only. Required before the holder can receive the MPT. Also adds to the holder's reserve.
 - Issuer authorization: when the issuance has tfMPTRequireAuth, the issuer sends it with Holder set to approve that holder. The holder must have opted in first.

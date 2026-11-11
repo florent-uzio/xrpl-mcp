@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitPaymentChannelFundTool = createTransactionTool<PaymentChannelFund>({
-  toolId: 'submit-payment-channel-fund',
+  toolId: 'submitPaymentChannelFund',
   description: `Submit a PaymentChannelFund transaction to add XRP to an existing payment channel you created, and optionally update its expiration.
 
 Channel is the 64-hex channel ID. Amount is the XRP in drops to add (deducted from your balance). Expiration is optional, in seconds since the Ripple Epoch. Only the channel source can fund it.

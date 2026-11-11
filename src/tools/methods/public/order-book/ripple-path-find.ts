@@ -10,7 +10,7 @@ const destinationAmountSchema = z.union([
 ])
 
 export const getRipplePathFindTool = defineMethodTool({
-  id: 'get-ripple-path-find',
+  id: 'getRipplePathFind',
   command: 'ripple_path_find',
   description: `Find payment paths (a one-off snapshot) for sending a cross-currency or cross-issuer Payment. Returns alternatives, each with the source_amount needed and paths_computed to copy into the Payment's Paths field. destination_amount is a drops string for XRP, or { currency, issuer, value } for tokens (use value "-1" to ask for the largest possible amount).`,
   request: z.object({

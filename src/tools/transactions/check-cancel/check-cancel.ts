@@ -7,11 +7,11 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitCheckCancelTool = createTransactionTool<CheckCancel>({
-  toolId: 'submit-check-cancel',
+  toolId: 'submitCheckCancel',
   description: `Submit a CheckCancel transaction to remove a Check from the ledger without cashing it.
 
 Fields:
-- CheckID: 64-character hex ID of the Check ledger entry (find it with get-account-objects, type "check").
+- CheckID: 64-character hex ID of the Check ledger entry (find it with getAccountObjects, type "check").
 
 Rules: the Check's sender or destination can cancel it at any time; anyone can cancel it once its Expiration has passed. Cancelling frees the sender's owner reserve.
 

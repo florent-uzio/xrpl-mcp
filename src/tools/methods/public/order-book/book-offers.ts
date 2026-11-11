@@ -4,7 +4,7 @@ import { xrplAssetSchema } from '../../../transactions/shared'
 import { defineMethodTool } from '../../shared'
 
 export const getBookOffersTool = defineMethodTool({
-  id: 'get-book-offers',
+  id: 'getBookOffers',
   command: 'book_offers',
   description: `List the DEX offers of an order book, best price first. taker_gets is what the offer taker would receive (the offer creator sells it); taker_pays is what the taker would pay. Assets are { currency: "XRP" }, { currency, issuer } or { mpt_issuance_id }; non-3-character currency codes are converted to hex automatically.`,
   request: z.object({

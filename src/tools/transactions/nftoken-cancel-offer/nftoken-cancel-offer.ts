@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitNFTokenCancelOfferTool = createTransactionTool<NFTokenCancelOffer>({
-  toolId: 'submit-nftoken-cancel-offer',
+  toolId: 'submitNFTokenCancelOffer',
   description: `Submit an NFTokenCancelOffer transaction to remove one or more NFT buy/sell offers. No flags.
 
 NFTokenOffers is a non-empty array of offer IDs (64 hex characters each). The sender must be the offer's creator or its Destination, unless the offer has expired or the NFT no longer exists, in which case anyone can cancel it.

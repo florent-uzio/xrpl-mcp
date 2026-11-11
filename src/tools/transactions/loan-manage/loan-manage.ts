@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitLoanManageTool = createTransactionTool<LoanManage>({
-  toolId: 'submit-loan-manage',
+  toolId: 'submitLoanManage',
   description: `Submit a LoanManage transaction to default, impair or unimpair a loan. Only the loan broker owner can send it. Requires the LendingProtocol amendment.
 
 Set exactly one flag in Flags:

@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitVaultWithdrawTool = createTransactionTool<VaultWithdraw>({
-  toolId: 'submit-vault-withdraw',
+  toolId: 'submitVaultWithdraw',
   description: `Submit a VaultWithdraw transaction to redeem vault shares for assets. Requires the SingleAssetVault and LendingProtocolV1_1 amendments.
 
 Amount is either the vault's asset (the shares needed are burned) or a share amount (shares are converted to assets). Unrealized losses mean more shares are burned or fewer assets are received. Payouts never exceed the requested amount. No transfer fee applies.

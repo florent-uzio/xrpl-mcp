@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, xrplAddressSchema } from '../../../../helpers'
 import { defineMethodTool } from '../../shared'
 
 export const getDepositAuthorizedTool = defineMethodTool({
-  id: 'get-deposit-authorized',
+  id: 'getDepositAuthorized',
   command: 'deposit_authorized',
   description: `Check whether a source account may send payments to a destination account that uses Deposit Authorization. deposit_authorized is true if the destination has not enabled it, the source is preauthorized, or the source holds one of the supplied accepted credentials.`,
   request: z.object({

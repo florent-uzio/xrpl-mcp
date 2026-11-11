@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitLoanPayTool = createTransactionTool<LoanPay>({
-  toolId: 'submit-loan-pay',
+  toolId: 'submitLoanPay',
   description: `Submit a LoanPay transaction to make a payment on a loan. Only the borrower can send it. Requires the LendingProtocol amendment.
 
 Amount is XRP in drops, or {currency, issuer, value} for a token, or {mpt_issuance_id, value} for an MPT. It must be the loan's asset and at least the minimum for the payment type.

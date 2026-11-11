@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, paginationMarkerSchema, xrplAddressSchema } from 
 import { defineMethodTool } from '../../shared'
 
 export const getAccountTxTool = defineMethodTool({
-  id: 'get-account-tx',
+  id: 'getAccountTx',
   command: 'account_tx',
   description: `Get validated transaction history for an account. ledger_index/ledger_hash select a single ledger: do not combine them with ledger_index_min/max.`,
   request: z.object({

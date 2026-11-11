@@ -2,7 +2,7 @@
 
 An MCP server, [`@florent-uzio/xrpl-mcp`](https://www.npmjs.com/package/@florent-uzio/xrpl-mcp), that lets an AI client such as Claude Code query and transact on the XRP Ledger. It runs over stdio and is built with [Mastra](https://mastra.ai/) and [xrpl.js](https://js.xrpl.org/). See `GLOSSARY.md` for the vocabulary.
 
-- **122 tools**:
+- **Over 120 tools**:
   - query the ledger (accounts, ledgers, transactions, order books, AMMs, NFTs, vaults, servers, fees)
   - submit the XRPL transaction types (payments, trust lines, DEX offers, AMMs, NFTs, MPTs, escrows, checks, payment channels, credentials, vaults, lending, oracles, batches, confidential MPTs)
   - create and fund wallets
@@ -41,8 +41,8 @@ claude mcp add xrpl -- npm --prefix "$(pwd)" run --silent mcp
 ## Networks and secrets
 
 - Mainnet is the default. Say "testnet" or "devnet", or give a `wss://` URL, to use another network. Every known network is listed in `src/helpers/networks.ts`.
-- **Seeds are refused outside test networks**, before any connection is made. On mainnet, sign the transaction yourself and submit the blob with `submit-signed-blob`.
-- **Flow records** keep what a session creates (wallets, MPT IDs, keys, hashes), so a later session can reuse it. `save-flow-record` refuses seeds and private keys on mainnet.
+- **Seeds are refused outside test networks**, before any connection is made. On mainnet, sign the transaction yourself and submit the blob with `submitSignedBlob`.
+- **Flow records** keep what a session creates (wallets, MPT IDs, keys, hashes), so a later session can reuse it. `saveFlowRecord` refuses seeds and private keys on mainnet.
 
 | Variable                   | Purpose                                                                                                                                                                                                                           |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -53,12 +53,12 @@ claude mcp add xrpl -- npm --prefix "$(pwd)" run --silent mcp
 
 The server exposes each workflow as `run_<name>`.
 
-| Workflow           | Network         | What it does                                                                                                                                                     |
-| ------------------ | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `iou-issuance`     | testnet, devnet | Funds an issuer and holders, configures the issuer, creates the trust lines and sends the token to each holder.                                                  |
-| `mpt-issuance`     | testnet, devnet | Funds an issuer and holders, creates the MPT issuance (flags, scale, metadata), opts the holders in and sends them the token.                                    |
-| `confidential-mpt` | devnet          | Creates or reuses a confidential MPT, registers the ElGamal keys, converts a holder balance to confidential, then optionally sends and converts back.            |
-| `lending-setup`    | devnet          | Creates a transferable MPT, a closed-ended vault, a deposit, a loan broker and its first-loss cover. The loan itself is created afterwards with `sign-loan-set`. |
+| Workflow           | Network         | What it does                                                                                                                                                   |
+| ------------------ | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `iou-issuance`     | testnet, devnet | Funds an issuer and holders, configures the issuer, creates the trust lines and sends the token to each holder.                                                |
+| `mpt-issuance`     | testnet, devnet | Funds an issuer and holders, creates the MPT issuance (flags, scale, metadata), opts the holders in and sends them the token.                                  |
+| `confidential-mpt` | devnet          | Creates or reuses a confidential MPT, registers the ElGamal keys, converts a holder balance to confidential, then optionally sends and converts back.          |
+| `lending-setup`    | devnet          | Creates a transferable MPT, a closed-ended vault, a deposit, a loan broker and its first-loss cover. The loan itself is created afterwards with `signLoanSet`. |
 
 The input of each workflow is described in its schema, in `src/workflows/*.types.ts`.
 
@@ -75,7 +75,7 @@ import { xrplPaymentSchema } from './payment.types'
 const { createTransactionTool } = useTransactionToolFactory({ inputSchema: xrplPaymentSchema })
 
 export const submitPaymentTool = createTransactionTool<Payment>({
-  toolId: 'submit-payment',
+  toolId: 'submitPayment',
   description: 'Submit a Payment transaction to send XRP, tokens or MPTs. ...',
   // Optional: reshape the input into the transaction
   buildTransaction: payment => ({ ...payment, Amount: payment.DeliverMax ? undefined : payment.Amount }) as Payment,
@@ -88,9 +88,11 @@ export const submitPaymentTool = createTransactionTool<Payment>({
 })
 ```
 
-Query tools use `defineMethodTool` (`src/tools/methods/shared/method-tool.ts`), with the method name and the request and result schemas.
+Query tools use `defineMethodTool` (`src/tools/methods/shared/method-tool.ts`), with the `id`, the xrpld `command` and the `request` and `result` schemas.
 
 Export the new tool from its folder's `index.ts`. `src/catalog.ts` picks up every tool exported from `src/tools`, so the server exposes it.
+
+The server exposes each tool under its id, so the id is the name the model sees. Name the export after the id with a `Tool` suffix (`submitPaymentTool` for `submitPayment`): a test checks it. Never rename a published tool: it breaks every client that calls it (see `docs/adr/0001-tool-names-are-camelcase-ids.md`).
 
 ## Development
 

@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, paginationMarkerSchema, xrplAddressSchema } from 
 import { defineMethodTool } from '../../shared'
 
 export const getNftInfoTool = defineMethodTool({
-  id: 'get-nft-info',
+  id: 'getNftInfo',
   command: 'nft_info',
   description: `Get an NFT's details: owner, issuer, URI, flags, taxon, serial and whether it is burned. Clio servers only (e.g. wss://clio.altnet.rippletest.net:51233/, wss://honeycluster.io/); rippled does not support it.`,
   request: z.object({
@@ -24,7 +24,7 @@ export const getNftInfoTool = defineMethodTool({
 })
 
 export const getNftHistoryTool = defineMethodTool({
-  id: 'get-nft-history',
+  id: 'getNftHistory',
   command: 'nft_history',
   description: `Get the transactions that affected an NFT (mint, transfers, offers, burn). Clio servers only.`,
   request: z.object({
@@ -44,9 +44,9 @@ export const getNftHistoryTool = defineMethodTool({
 })
 
 export const getNftsByIssuerTool = defineMethodTool({
-  id: 'get-nfts-by-issuer',
+  id: 'getNftsByIssuer',
   command: 'nfts_by_issuer',
-  description: `List the NFTs minted by an issuer, optionally only one taxon. Clio servers only. Use get-account-nfts for the NFTs an account owns.`,
+  description: `List the NFTs minted by an issuer, optionally only one taxon. Clio servers only. Use getAccountNFTs for the NFTs an account owns.`,
   request: z.object({
     issuer: xrplAddressSchema.describe('Issuer address'),
     nft_taxon: z.number().int().nonnegative().optional().describe('Only this taxon'),

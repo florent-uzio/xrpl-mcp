@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitPaymentChannelClaimTool = createTransactionTool<PaymentChannelClaim>({
-  toolId: 'submit-payment-channel-claim',
+  toolId: 'submitPaymentChannelClaim',
   description: `Submit a PaymentChannelClaim transaction to claim XRP from a payment channel, renew its expiration, or request its closure.
 
 Channel is the 64-hex channel ID. Balance is the cumulative total XRP in drops delivered after this claim, and Amount is the total authorized by the Signature (drops).

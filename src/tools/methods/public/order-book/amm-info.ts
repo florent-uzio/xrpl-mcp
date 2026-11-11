@@ -4,7 +4,7 @@ import { xrplAssetSchema } from '../../../transactions/shared'
 import { defineMethodTool } from '../../shared'
 
 export const getAmmInfoTool = defineMethodTool({
-  id: 'get-amm-info',
+  id: 'getAmmInfo',
   command: 'amm_info',
   description: `Get an Automated Market Maker (AMM) pool: both asset balances, LP token supply, trading fee, vote slots and auction slot. Identify the pool either by its two assets (asset and asset2) or by amm_account (the AMM's pseudo-account). Optionally pass account to see that account's LP token balance. Assets are { currency: "XRP" }, { currency, issuer } or { mpt_issuance_id }.`,
   request: z.object({

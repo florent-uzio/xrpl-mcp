@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitAccountSetTool = createTransactionTool<AccountSet>({
-  toolId: 'submit-account-set',
+  toolId: 'submitAccountSet',
   description: `Submit an AccountSet transaction to change account settings (flags, domain, transfer rate, tick size, NFT minter, etc.).
 
 Use SetFlag / ClearFlag with a single asf* value. Do not use Flags for account settings, except when you need tf* flags.

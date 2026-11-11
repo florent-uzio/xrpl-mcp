@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, xrplAddressSchema } from '../../../../helpers'
 import { defineMethodTool } from '../../shared'
 
 export const getAccountInfoTool = defineMethodTool({
-  id: 'get-account-info',
+  id: 'getAccountInfo',
   command: 'account_info',
   description: `Get an account's XRP balance, sequence, owner count and flags (AccountRoot).
 

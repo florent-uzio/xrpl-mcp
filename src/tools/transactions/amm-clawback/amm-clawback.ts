@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitAmmClawbackTool = createTransactionTool<AMMClawback>({
-  toolId: 'submit-amm-clawback',
+  toolId: 'submitAmmClawback',
   description: `Submit an AMMClawback transaction. A token issuer claws back its own token from a Holder's share of an AMM pool (the Holder's LP tokens are redeemed and the issuer's token is returned to the issuer). Requires the AMMClawback amendment.
 
 Fields:

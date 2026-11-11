@@ -4,12 +4,14 @@ import { confidentialMptWorkflow, iouIssuanceWorkflow, lendingSetupWorkflow, mpt
 
 /**
  * The single list of tools and workflows the MCP server exposes.
- * Tool keys are the tool names the model sees, so they never change.
+ * Each tool is exposed under its id, the name the model sees, so ids never change (docs/adr/0001).
  */
 
 // The tools barrel also exports schemas and helper functions: keep only the tools. Exporting a tool is enough to add it.
 export const allTools = Object.fromEntries(
-  Object.entries(toolsBarrel).filter((entry): entry is [string, Tool<any, any, any, any>] => entry[1] instanceof Tool),
+  Object.values(toolsBarrel)
+    .filter((value): value is Tool<any, any, any, any> => value instanceof Tool)
+    .map(tool => [tool.id, tool]),
 )
 
 // One key per workflow. The MCP server exposes each one as run_<key>.

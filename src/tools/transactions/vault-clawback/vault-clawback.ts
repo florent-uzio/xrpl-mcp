@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitVaultClawbackTool = createTransactionTool<VaultClawback>({
-  toolId: 'submit-vault-clawback',
+  toolId: 'submitVaultClawback',
   description: `Submit a VaultClawback transaction to claw back assets or shares from a vault holder. It performs a VaultWithdraw on the holder's behalf. Requires the SingleAssetVault amendment. XRP cannot be clawed back.
 
 Who can claw back what:
