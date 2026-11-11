@@ -1,4 +1,3 @@
-import { ToolExecutionContext } from '@mastra/core/tools'
 import { Client } from 'xrpl'
 import { normalizeNetworkUrl } from './networks'
 
@@ -8,18 +7,12 @@ import { normalizeNetworkUrl } from './networks'
 // Keyed by the normalised URL, so "wss://x" and "wss://x/" share one socket.
 const clientInstances = new Map<string, Client>()
 
-export const getXrplClient = async (network: string, mastra: ToolExecutionContext['mastra']): Promise<Client> => {
-  const logger = mastra?.getLogger()
-
+export const getXrplClient = async (network: string): Promise<Client> => {
   const key = normalizeNetworkUrl(network) ?? network
   let client = clientInstances.get(key)
   if (!client) {
     client = new Client(network)
     clientInstances.set(key, client)
-
-    const clientUrl = client.url
-    client.on('connected', () => logger?.info('Connected to XRP Ledger', { network, clientUrl }))
-    client.on('disconnected', code => logger?.warn('Disconnected from XRP Ledger', { network, clientUrl, code }))
   }
 
   // No-op when already connected; waits for the pending connection when another call is connecting

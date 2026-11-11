@@ -28,13 +28,13 @@ const createWallets = createStep({
   description: 'Creates and funds the issuer (new MPT only), vault owner, depositor and borrower wallets',
   inputSchema: lendingSetupWorkflowSchema,
   outputSchema: walletsSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { network, issuance } = inputData
 
     try {
       if (issuance.source === 'existing') {
         assertSeedAllowed(network)
-        const [vaultOwner, depositor, borrower] = await fundWallets(network, 3, mastra)
+        const [vaultOwner, depositor, borrower] = await fundWallets(network, 3)
         return {
           ...inputData,
           issuer: toWalletRecord(Wallet.fromSeed(issuance.issuerSeed)),
@@ -44,7 +44,7 @@ const createWallets = createStep({
         }
       }
 
-      const [issuer, vaultOwner, depositor, borrower] = await fundWallets(network, 4, mastra)
+      const [issuer, vaultOwner, depositor, borrower] = await fundWallets(network, 4)
       return { ...inputData, issuer, vaultOwner, depositor, borrower }
     } catch (error) {
       throw new Error(`Failed to create wallets: ${errorMessage(error)}`)
@@ -58,7 +58,7 @@ const createIssuance = createStep({
   description: 'Creates a transferable MPT issuance, or reuses the existing one',
   inputSchema: walletsSchema,
   outputSchema: issuedSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuer, network, issuance } = inputData
 
     if (issuance.source === 'existing') {
@@ -66,7 +66,7 @@ const createIssuance = createStep({
     }
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
 
       const tx: MPTokenIssuanceCreate = {
         TransactionType: 'MPTokenIssuanceCreate',
@@ -95,12 +95,12 @@ const distributeTokens = createStep({
   description: 'The vault owner, depositor and borrower opt in to the MPT and receive mintAmount each',
   inputSchema: issuedSchema,
   outputSchema: issuedSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuer, vaultOwner, depositor, borrower, network, mintAmount, mptIssuanceId, txnResults } = inputData
     const holders = [vaultOwner, depositor, borrower]
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
 
       // Parallel: each holder signs with its own wallet
       const optIns = await Promise.all(
@@ -144,11 +144,11 @@ const createVault = createStep({
   description: 'Creates a closed-ended vault with SubscriptionDate and RedemptionDate counted from ledger time',
   inputSchema: issuedSchema,
   outputSchema: vaultSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { vaultOwner, network, mptIssuanceId, subscriptionSeconds, investmentSeconds, txnResults } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
 
       const ledger = await client.request({ command: 'ledger', ledger_index: 'validated' })
       const subscriptionDate = ledger.result.ledger.close_time + subscriptionSeconds
@@ -184,11 +184,11 @@ const depositIntoVault = createStep({
   description: 'The depositor deposits depositAmount into the vault during the Subscription phase',
   inputSchema: vaultSchema,
   outputSchema: vaultSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { depositor, network, mptIssuanceId, vaultId, depositAmount, txnResults } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
 
       const tx: VaultDeposit = {
         TransactionType: 'VaultDeposit',
@@ -212,12 +212,12 @@ const createLoanBroker = createStep({
   description: 'The vault owner creates the LoanBroker and deposits coverAmount as first-loss capital',
   inputSchema: vaultSchema,
   outputSchema: vaultSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { vaultOwner, network, mptIssuanceId, vaultId, coverAmount, txnResults } = inputData
     const { managementFeeRate, coverRateMinimum, coverRateLiquidation } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
 
       // Sequential: same sender account (sequence numbers), and the cover needs the broker ID
       const brokerTx: LoanBrokerSet = {

@@ -64,8 +64,8 @@ The Fee covers the counterparty's signer list. If Account itself multi-signs, th
   outputSchema: z.object({
     txn: z.looseObject({}).describe('Unsigned LoanSet with Fee, Sequence and LastLedgerSequence set'),
   }),
-  execute: async ({ network, ...params }, { mastra }) => {
-    const client = await getXrplClient(network, mastra)
+  execute: async ({ network, ...params }) => {
+    const client = await getXrplClient(network)
     const txn = await prepareLoanSet(client, params)
     return { txn: txn as unknown as Record<string, unknown> }
   },

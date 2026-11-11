@@ -72,13 +72,13 @@ const setupWallets = createStep({
   description: 'Loads the accounts that were given by seed and creates and funds the missing ones',
   inputSchema: confidentialMptWorkflowSchema,
   outputSchema: confidentialStateSchema.omit({ mptIssuanceId: true, txnResults: true }),
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { network, issuer, holder, send } = inputData
 
     try {
       if ([issuer, holder, send?.destination].some(account => account?.source === 'seed')) assertSeedAllowed(network)
 
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const loadOrFund = async (account: Account) =>
         toWalletRecord(account.source === 'seed' ? Wallet.fromSeed(account.seed) : (await client.fundWallet()).wallet)
 
@@ -114,12 +114,12 @@ const setupIssuance = createStep({
   description: 'Creates the confidential-capable MPT issuance if needed and registers the issuer/auditor keys',
   inputSchema: setupWallets.outputSchema,
   outputSchema: confidentialStateSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuerWallet: issuer, network, issuance: issuanceRequest, auditor, confidentialSeeds } = inputData
     const txnResults: TxnResult[] = []
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       let mptIssuanceId: string
 
       if (issuanceRequest.source === 'existing') {
@@ -181,11 +181,11 @@ const optIn = createStep({
   description: 'The holder and the send destination opt in to the MPT with MPTokenAuthorize if they have not yet',
   inputSchema: confidentialStateSchema,
   outputSchema: confidentialStateSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { network, mptIssuanceId, txnResults } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const results: TxnResult[] = []
 
       for (const { wallet, label } of accountsOf(inputData)) {
@@ -212,11 +212,11 @@ const authorize = createStep({
   description: 'The issuer authorizes the holder and the destination. Skipped unless the issuance has tfMPTRequireAuth',
   inputSchema: confidentialStateSchema,
   outputSchema: confidentialStateSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuerWallet: issuer, network, mptIssuanceId, txnResults } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const issuance = await fetchMPTokenIssuance(client, mptIssuanceId)
       if (!(issuance.Flags & MPTokenIssuanceCreateFlags.tfMPTRequireAuth)) return inputData
 
@@ -247,11 +247,11 @@ const mintToHolder = createStep({
   description: 'The issuer pays the holder the public MPT balance it lacks to convert convertAmount',
   inputSchema: confidentialStateSchema,
   outputSchema: confidentialStateSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuerWallet: issuer, holderWallet, network, convertAmount, mptIssuanceId, txnResults } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const mptoken = await fetchMPToken(client, holderWallet.address, mptIssuanceId)
       const missing = BigInt(convertAmount) - BigInt(mptoken.MPTAmount ?? 0)
       if (missing <= 0n) return inputData
@@ -281,11 +281,11 @@ const convert = createStep({
     'ConfidentialMPTConvert: the holder moves convertAmount to its confidential balance and registers its key',
   inputSchema: confidentialStateSchema,
   outputSchema: confidentialStateSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { network, convertAmount, mptIssuanceId, txnResults } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const results: TxnResult[] = []
 
       for (const { label, wallet, confidentialSeed } of accountsOf(inputData)) {
@@ -321,11 +321,11 @@ const mergeInbox = createStep({
   description: 'ConfidentialMPTMergeInbox: the holder moves its confidential inbox to its spending balance',
   inputSchema: confidentialStateSchema,
   outputSchema: confidentialStateSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { holderWallet, network, mptIssuanceId, txnResults } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const tx = await prepareConfidentialMergeInbox(client, {
         account: holderWallet.address,
         mptIssuanceID: mptIssuanceId,
@@ -346,13 +346,13 @@ const send = createStep({
     'ConfidentialMPTSend from the holder to the destination, which then merges its inbox. Skipped unless a send was requested',
   inputSchema: confidentialStateSchema,
   outputSchema: confidentialStateSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { holderWallet, destinationWallet, confidentialSeeds, network, mptIssuanceId, txnResults } = inputData
     const request = inputData.send
     if (!request || !destinationWallet) return inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const tx = await prepareConfidentialSend(client, {
         account: holderWallet.address,
         destination: destinationWallet.address,
@@ -392,13 +392,13 @@ const convertBack = createStep({
   description: 'ConfidentialMPTConvertBack by the holder. Skipped unless a convert back was requested',
   inputSchema: confidentialStateSchema,
   outputSchema: confidentialStateSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { holderWallet, confidentialSeeds, network, mptIssuanceId, txnResults } = inputData
     const request = inputData.convertBack
     if (!request) return inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const tx = await prepareConfidentialConvertBack(client, {
         account: holderWallet.address,
         mptIssuanceID: mptIssuanceId,
@@ -428,11 +428,11 @@ const recordResults = createStep({
   description: 'Reads the final balances and saves the accounts, confidential seeds and transactions to a record file',
   inputSchema: confidentialStateSchema,
   outputSchema: confidentialMptResultSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuerWallet: issuer, network, mptIssuanceId, confidentialSeeds, txnResults } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const balances: Record<string, { publicBalance: string; confidentialSpendingBalance: string }> = {}
 
       for (const { label, wallet, confidentialSeed } of accountsOf(inputData)) {

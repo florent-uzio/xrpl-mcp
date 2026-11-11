@@ -51,7 +51,7 @@ Errors: temINVALID_FLAG (zero or several modes), temARRAY_EMPTY/temARRAY_TOO_LAR
       throw new Error('Nested Batch transactions are not allowed')
     }
   },
-  prepareTransaction: async ({ txn, input, network, mastra }) => {
+  prepareTransaction: async ({ txn, input, network }) => {
     if (input.innerSeeds?.length) assertSeedAllowed(network)
 
     const innerWallets = (input.innerSeeds ?? []).map(seed => Wallet.fromSeed(seed))
@@ -62,7 +62,7 @@ Errors: temINVALID_FLAG (zero or several modes), temARRAY_EMPTY/temARRAY_TOO_LAR
     }
 
     // Sequences and fees must be filled before signing because the signature covers the inner transaction hashes
-    const client = await getXrplClient(network, mastra)
+    const client = await getXrplClient(network)
     const prepared = await autofill(client, txn, signers.length)
 
     const signedCopies = signers.map(wallet => {

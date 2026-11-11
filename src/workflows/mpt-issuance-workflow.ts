@@ -21,9 +21,9 @@ const createWallets = createStep({
   description: 'Creates and funds wallets for the issuer and all MPT holders',
   inputSchema: mptIssuanceWorkflowSchema,
   outputSchema: walletsSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     try {
-      const [issuer, ...holders] = await fundWallets(inputData.network, inputData.holders + 1, mastra)
+      const [issuer, ...holders] = await fundWallets(inputData.network, inputData.holders + 1)
 
       return { ...inputData, issuer, holders }
     } catch (error) {
@@ -38,11 +38,11 @@ const createIssuance = createStep({
   description: 'Creates the MPT issuance with the requested flags and properties',
   inputSchema: walletsSchema,
   outputSchema: issuedSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuer, network, issuance } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
 
       const tx: MPTokenIssuanceCreate = {
         TransactionType: 'MPTokenIssuanceCreate',
@@ -74,11 +74,11 @@ const holdersOptIn = createStep({
   description: 'Each holder opts in to the MPT with MPTokenAuthorize',
   inputSchema: issuedSchema,
   outputSchema: issuedSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { holders, network, mptIssuanceId, txnResults } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
 
       // Parallel: each holder signs with its own wallet
       const results = await Promise.all(
@@ -106,7 +106,7 @@ const authorizeHolders = createStep({
   description: 'The issuer authorizes each holder. Skipped unless the issuance has tfMPTRequireAuth',
   inputSchema: issuedSchema,
   outputSchema: issuedSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuer, holders, network, issuance, mptIssuanceId, txnResults } = inputData
 
     if (!issuance.flags?.includes('tfMPTRequireAuth')) {
@@ -114,7 +114,7 @@ const authorizeHolders = createStep({
     }
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const results: TxnResult[] = []
 
       // Sequential: same sender account (sequence numbers)
@@ -142,11 +142,11 @@ const mintTokens = createStep({
   description: 'Mints the MPT by sending payments from the issuer to the holders',
   inputSchema: issuedSchema,
   outputSchema: issuedSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuer, holders, network, mintAmount, mptIssuanceId, txnResults } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const results: TxnResult[] = []
 
       // Sequential: same sender account (sequence numbers)

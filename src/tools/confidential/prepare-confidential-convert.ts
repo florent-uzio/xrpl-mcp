@@ -61,8 +61,8 @@ The seed is a secret: never repeat it.`,
     txn: z.looseObject({}).describe('Unsigned ConfidentialMPTConvert, ready for submitConfidentialMPTConvert'),
     registersKey: z.boolean().describe('True when this transaction also registers the holder encryption key'),
   }),
-  execute: async (inputData, { mastra }) => {
-    const client = await getXrplClient(inputData.network, mastra)
+  execute: async inputData => {
+    const client = await getXrplClient(inputData.network)
     const txn = await withReadableErrors(() => prepareConvert(client, inputData))
     return { txn, registersKey: txn.HolderEncryptionKey != null }
   },
