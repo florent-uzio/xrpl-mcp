@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitTrustSetTool = createTransactionTool<TrustSet>({
-  toolId: 'submit-trustset',
+  toolId: 'submitTrustSet',
   description: `Submit a TrustSet transaction to create or modify a trust line so an account can hold a token. Not valid for XRP. The issuer cannot be the sender. Each trust line adds to the account's reserve. Currency codes are converted to hex automatically.
 
 Flags is a number: add the values of the flags you want, e.g. tfSetNoRipple + tfSetFreeze = 1179648.

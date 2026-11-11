@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitAmmVoteTool = createTransactionTool<AMMVote>({
-  toolId: 'submit-amm-vote',
+  toolId: 'submitAmmVote',
   description: `Submit an AMMVote transaction to vote on an AMM's trading fee. Votes are weighted by the amount of the AMM's LP tokens the sender holds, and the AMM's fee becomes the weighted average of the votes.
 
 Fields:

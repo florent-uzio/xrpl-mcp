@@ -38,7 +38,7 @@ beforeEach(() => {
   vi.mocked(getXrplClient).mockResolvedValue(fakeClient as never)
 })
 
-describe('submit-clawback', () => {
+describe('submitClawback', () => {
   const clawback = (fields: object) => ({ TransactionType: 'Clawback', Account: ISSUER, ...fields })
 
   it('claws back an MPT from a holder', async () => {
@@ -70,7 +70,7 @@ describe('submit-clawback', () => {
   })
 })
 
-describe('submit-oracle-set', () => {
+describe('submitOracleSet', () => {
   const oracleSet = (AssetPrice: unknown) => ({
     TransactionType: 'OracleSet',
     Account: ISSUER,

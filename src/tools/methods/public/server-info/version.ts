@@ -1,8 +1,8 @@
 import { z } from 'zod'
 import { defineMethodTool } from '../../shared'
 
-export const getVersionTool = defineMethodTool({
-  id: 'get-version',
+export const getXrpldApiVersionsTool = defineMethodTool({
+  id: 'getXrpldApiVersions',
   command: 'version',
   description: `Get the range of API versions a rippled server supports: the lowest (first), the default (good) and the highest (last).`,
   request: z.object({}),

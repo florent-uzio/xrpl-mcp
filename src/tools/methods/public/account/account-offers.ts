@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, paginationMarkerSchema, xrplAddressSchema } from 
 import { defineMethodTool } from '../../shared'
 
 export const getAccountOffersTool = defineMethodTool({
-  id: 'get-account-offers',
+  id: 'getAccountOffers',
   command: 'account_offers',
   description: `List an account's outstanding DEX offers (taker_gets, taker_pays, quality, seq, expiration).
 

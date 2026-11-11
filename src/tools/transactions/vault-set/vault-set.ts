@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitVaultSetTool = createTransactionTool<VaultSet>({
-  toolId: 'submit-vault-set',
+  toolId: 'submitVaultSet',
   description: `Submit a VaultSet transaction to update a vault. Only the vault owner can send it. Requires the SingleAssetVault amendment.
 
 You can change Data, AssetsMaximum and DomainID. Whether the vault is public or private cannot be changed. DomainID only applies to private vaults.

@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitAmmDeleteTool = createTransactionTool<AMMDelete>({
-  toolId: 'submit-amm-delete',
+  toolId: 'submitAmmDelete',
   description: `Submit an AMMDelete transaction to delete an empty AMM (one with no assets left in its pool, which happens after all LP tokens were withdrawn). Asset and Asset2 identify the AMM (XRP as {currency: "XRP"}, or {currency, issuer}).
 
 Rules: only needed when a previous AMMWithdraw (tfWithdrawAll) could not delete all the AMM's trust lines in one transaction. If it still has too many trust lines, it deletes up to 512 and returns tecINCOMPLETE; resubmit until it succeeds.

@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitNFTokenBurnTool = createTransactionTool<NFTokenBurn>({
-  toolId: 'submit-nftoken-burn',
+  toolId: 'submitNFTokenBurn',
   description: `Submit an NFTokenBurn transaction to permanently destroy an NFT. No flags.
 
 NFTokenID is 64 hex characters. The owner can always burn their own NFT. The issuer (or an authorized minter) can burn an NFT owned by someone else by setting Owner, but only if it was minted with tfBurnable. Burning also removes any offers for the token.

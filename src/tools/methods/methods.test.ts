@@ -40,7 +40,7 @@ describe('query tools', () => {
     expect(getTool(name).inputSchema.safeParse({ network, request }).success).toBe(false)
   })
 
-  it('get-ripple-path-find accepts value "-1" for the largest possible amount', () => {
+  it('getRipplePathFind accepts value "-1" for the largest possible amount', () => {
     const destination = 'rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe'
     const request = (value: string) => ({
       network,

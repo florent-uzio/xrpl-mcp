@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitSignerListSetTool = createTransactionTool<SignerListSet>({
-  toolId: 'submit-signer-list-set',
+  toolId: 'submitSignerListSet',
   description: `Submit a SignerListSet transaction to create, replace or delete the multi-signing list of the sender account.
 
 To create or replace: set SignerQuorum (target weight sum, at least 1 and at most the total of all weights) and SignerEntries (1 to 32 entries of { SignerEntry: { Account, SignerWeight 1-65535, WalletLocator? } }). Signer accounts must be unique and cannot include the sender. A new list replaces any existing one.

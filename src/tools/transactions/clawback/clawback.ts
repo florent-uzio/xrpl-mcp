@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitClawbackTool = createTransactionTool<Clawback>({
-  toolId: 'submit-clawback',
+  toolId: 'submitClawback',
   description: `Submit a Clawback transaction. A token issuer recovers issued tokens from a holder.
 
 Prerequisites: the issuer must have set asfAllowTrustLineClawback (16) before holding any trust lines, offers or escrows. It is permanent and cannot be combined with NoFreeze.

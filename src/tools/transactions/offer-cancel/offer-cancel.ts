@@ -7,6 +7,6 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitOfferCancelTool = createTransactionTool<OfferCancel>({
-  toolId: 'submit-offer-cancel',
-  description: `Submit an OfferCancel transaction to remove one of your DEX offers. OfferSequence is the sequence number of the transaction that created the offer. You can find it with get-account-offers.`,
+  toolId: 'submitOfferCancel',
+  description: `Submit an OfferCancel transaction to remove one of your DEX offers. OfferSequence is the sequence number of the transaction that created the offer. You can find it with getAccountOffers.`,
 })

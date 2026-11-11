@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { xrplDecimalValueSchema } from '../../helpers'
 
 export const xrpToDropsTool = createTool({
-  id: 'xrp-to-drops',
+  id: 'xrpToDrops',
   description: 'Convert an XRP amount to drops',
   inputSchema: z.object({
     amount: xrplDecimalValueSchema.describe('Amount in XRP, e.g. "1.5"'),
@@ -17,7 +17,7 @@ export const xrpToDropsTool = createTool({
 })
 
 export const dropsToXrpTool = createTool({
-  id: 'drops-to-xrp',
+  id: 'dropsToXrp',
   description: 'Convert a drops amount to XRP',
   inputSchema: z.object({
     amount: z.string().regex(/^\d+$/, 'Drops must be an integer string').describe('Amount in drops, e.g. "1500000"'),

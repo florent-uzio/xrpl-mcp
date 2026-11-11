@@ -25,7 +25,7 @@ const nftOffersResult = {
 }
 
 export const getNftBuyOffersTool = defineMethodTool({
-  id: 'get-nft-buy-offers',
+  id: 'getNftBuyOffers',
   command: 'nft_buy_offers',
   description: `List the open buy offers for an NFT. Each offer's nft_offer_index is the ID to accept with NFTokenAcceptOffer.`,
   request: nftOffersRequest,
@@ -33,7 +33,7 @@ export const getNftBuyOffersTool = defineMethodTool({
 })
 
 export const getNftSellOffersTool = defineMethodTool({
-  id: 'get-nft-sell-offers',
+  id: 'getNftSellOffers',
   command: 'nft_sell_offers',
   description: `List the open sell offers for an NFT. Each offer's nft_offer_index is the ID to accept with NFTokenAcceptOffer.`,
   request: nftOffersRequest,

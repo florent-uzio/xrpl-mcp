@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitEscrowFinishTool = createTransactionTool<EscrowFinish>({
-  toolId: 'submit-escrow-finish',
+  toolId: 'submitEscrowFinish',
   description: `Submit an EscrowFinish transaction to release escrowed funds to the escrow's Destination. Anyone can send it once the conditions are met.
 
 Fields:
@@ -16,7 +16,7 @@ Fields:
 - Condition + Fulfillment: hex PREIMAGE-SHA-256 pair, required together for conditional escrows; omit for time-only escrows.
 - CredentialIDs (optional): up to 8 credential IDs for deposit-authorized destinations.
 
-Rules: FinishAfter (seconds since the Ripple Epoch) must have passed, and CancelAfter must not have passed. Fulfillments raise the fee (330 drops + 10 per 16 bytes). Find escrows with get-account-objects (type "escrow").
+Rules: FinishAfter (seconds since the Ripple Epoch) must have passed, and CancelAfter must not have passed. Fulfillments raise the fee (330 drops + 10 per 16 bytes). Find escrows with getAccountObjects (type "escrow").
 
 Errors: tecNO_TARGET (escrow not found), tecNO_PERMISSION (time not reached/expired, or bad fulfillment), tecCRYPTOCONDITION_ERROR, tecBAD_CREDENTIALS.`,
 })

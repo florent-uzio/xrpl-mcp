@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, xrplAddressSchema } from '../../../../helpers'
 import { defineMethodTool } from '../../shared'
 
 export const getLedgerEntryTool = defineMethodTool({
-  id: 'get-ledger-entry',
+  id: 'getLedgerEntry',
   command: 'ledger_entry',
   description: `Fetch ONE raw ledger entry. Identify it with exactly one selector in request: the 64-hex "index" (object ID), or a typed selector such as account_root, check, escrow, offer, ripple_state, payment_channel, nft_page, amm, did, oracle, vault, mpt_issuance, mptoken, ticket, deposit_preauth, credential, directory. Examples: { account_root: "r..." }, { offer: { account: "r...", seq: 5 } }, { ripple_state: { accounts: ["r1","r2"], currency: "USD" } }, { escrow: { owner: "r...", seq: 7 } }, { vault: "<VaultID>" }, { mpt_issuance: "<MPTIssuanceID>" }. Set binary true for a hex blob.`,
   request: z.looseObject({

@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { defineMethodTool } from '../../shared'
 
 export const getServerDefinitionsTool = defineMethodTool({
-  id: 'get-server-definitions',
+  id: 'getServerDefinitions',
   command: 'server_definitions',
   description: `Get the binary-serialization definitions of an XRPL server (the SDK-compatible definitions.json): fields, transaction and ledger entry formats, transaction flags, ledger entry flags and AccountSet flags. Use it to look up exact flag values or the fields of a transaction or ledger entry type on a given network.
 

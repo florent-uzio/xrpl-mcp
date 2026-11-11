@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitDepositPreauthTool = createTransactionTool<DepositPreauth>({
-  toolId: 'submit-deposit-preauth',
+  toolId: 'submitDepositPreauth',
   description: `Submit a DepositPreauth transaction to preauthorize (or remove the preauthorization of) an account or a set of credentials to send payments to the sender, which matters when the sender uses Deposit Authorization (asfDepositAuth).
 
 Provide exactly one of: Authorize (r-address to preauthorize), Unauthorize (r-address to remove), AuthorizeCredentials (1-8 { Credential: { Issuer, CredentialType (hex, 1-64 bytes) } } to preauthorize), UnauthorizeCredentials (same shape, to remove).

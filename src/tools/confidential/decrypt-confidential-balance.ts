@@ -62,7 +62,7 @@ export const decryptConfidentialBalance = async (client: Client, params: Decrypt
 }
 
 export const decryptConfidentialBalanceTool = createTool({
-  id: 'decrypt-confidential-balance',
+  id: 'decryptConfidentialBalance',
   description: `Decrypt a holder's confidential MPT balance (ConfidentialTransfer). Read-only, nothing is submitted. Works for the holder, the issuer, or an auditor whose ElGamal key is registered on the issuance.
 
 Input:

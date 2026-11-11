@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitEscrowCreateTool = createTransactionTool<EscrowCreate>({
-  toolId: 'submit-escrow-create',
+  toolId: 'submitEscrowCreate',
   description: `Submit an EscrowCreate transaction to lock funds until a time and/or crypto-condition is met. Supports XRP, trust line tokens and MPTs (issuer must allow escrow).
 
 Fields:

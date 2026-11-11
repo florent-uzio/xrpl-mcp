@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitAmmBidTool = createTransactionTool<AMMBid>({
-  toolId: 'submit-amm-bid',
+  toolId: 'submitAmmBid',
   description: `Submit an AMMBid transaction to bid on an AMM's auction slot. The slot holder trades against the AMM at a discounted fee for 24 hours.
 
 Fields:

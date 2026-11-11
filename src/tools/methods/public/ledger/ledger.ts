@@ -3,9 +3,9 @@ import { ledgerSpecifierShape, paginationMarkerSchema } from '../../../../helper
 import { defineMethodTool } from '../../shared'
 
 export const getLedgerTool = defineMethodTool({
-  id: 'get-ledger',
+  id: 'getLedger',
   command: 'ledger',
-  description: `Get a ledger's header and, optionally, its transactions. Use it for ledger close time, hash, parent hash and totals. Set transactions true to list transactions (hashes only unless expand is true). Full ledger state dumps are not supported here: use get-ledger-data.`,
+  description: `Get a ledger's header and, optionally, its transactions. Use it for ledger close time, hash, parent hash and totals. Set transactions true to list transactions (hashes only unless expand is true). Full ledger state dumps are not supported here: use getLedgerData.`,
   request: z.object({
     ...ledgerSpecifierShape,
     transactions: z.boolean().optional().describe("Include the ledger's transactions (default false)"),
@@ -30,7 +30,7 @@ export const getLedgerTool = defineMethodTool({
 })
 
 export const getLedgerClosedTool = defineMethodTool({
-  id: 'get-ledger-closed',
+  id: 'getLedgerClosed',
   command: 'ledger_closed',
   description: `Get the hash and index of the latest closed ledger (not necessarily validated).`,
   request: z.object({}),
@@ -41,7 +41,7 @@ export const getLedgerClosedTool = defineMethodTool({
 })
 
 export const getLedgerCurrentTool = defineMethodTool({
-  id: 'get-ledger-current',
+  id: 'getLedgerCurrent',
   command: 'ledger_current',
   description: `Get the index of the current open ledger (the one still collecting transactions; its contents are not final).`,
   request: z.object({}),
@@ -51,7 +51,7 @@ export const getLedgerCurrentTool = defineMethodTool({
 })
 
 export const getLedgerDataTool = defineMethodTool({
-  id: 'get-ledger-data',
+  id: 'getLedgerData',
   command: 'ledger_data',
   description: `Page through the raw ledger entries (state data) of one ledger. Large: always set limit and follow marker for more. Filter with type to avoid scanning everything. Prefer account-specific tools when you know the account.`,
   request: z.object({

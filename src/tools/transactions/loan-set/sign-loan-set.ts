@@ -36,20 +36,20 @@ export const signLoanSet = async (client: Client, { txn, seed, counterpartySeed 
 }
 
 export const signLoanSetTool = createTool({
-  id: 'sign-loan-set',
+  id: 'signLoanSet',
   description: `Sign a LoanSet as both parties (testnet/devnet only) and return the signed blob. Nothing is submitted.
 
-A LoanSet needs two signatures: Account (broker owner or borrower) signs normally, and Counterparty adds a CounterpartySignature made with a dedicated signing prefix. submit-loan-set cannot make the second one, so use this tool to create a loan, then pass tx_blob to submit-signed-blob.
+A LoanSet needs two signatures: Account (broker owner or borrower) signs normally, and Counterparty adds a CounterpartySignature made with a dedicated signing prefix. submitLoanSet cannot make the second one, so use this tool to create a loan, then pass tx_blob to submitSignedBlob.
 
 Input:
 - network: websocket URL of a test network (seeds are refused on mainnet)
-- txn: the LoanSet terms (same fields as submit-loan-set), with Account and Counterparty set. Do not set CounterpartySignature.
+- txn: the LoanSet terms (same fields as submitLoanSet), with Account and Counterparty set. Do not set CounterpartySignature.
 - seed: seed of Account
 - counterpartySeed: seed of Counterparty
 
-Output: the signed transaction, tx_blob and hash. Submit tx_blob with submit-signed-blob right away: LastLedgerSequence is set about 20 ledgers (~1 minute) ahead, after which the blob expires (tefMAX_LEDGER).
+Output: the signed transaction, tx_blob and hash. Submit tx_blob with submitSignedBlob right away: LastLedgerSequence is set about 20 ledgers (~1 minute) ahead, after which the blob expires (tefMAX_LEDGER).
 
-On mainnet, use prepare-loan-set: it returns the unsigned LoanSet for each party to sign outside this server, then the fully signed blob is submitted with submit-signed-blob.
+On mainnet, use prepareLoanSet: it returns the unsigned LoanSet for each party to sign outside this server, then the fully signed blob is submitted with submitSignedBlob.
 
 The seeds are secrets: never repeat them.`,
   inputSchema: z.object({
@@ -60,7 +60,7 @@ The seeds are secrets: never repeat them.`,
   }),
   outputSchema: z.object({
     txn: z.looseObject({}).describe('Signed LoanSet, with TxnSignature and CounterpartySignature'),
-    tx_blob: z.string().describe('Signed blob, ready for submit-signed-blob'),
+    tx_blob: z.string().describe('Signed blob, ready for submitSignedBlob'),
     hash: z.string().describe('Transaction hash'),
   }),
   execute: async ({ network, ...params }, { mastra }) => {

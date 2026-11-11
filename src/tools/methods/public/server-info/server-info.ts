@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { defineMethodTool } from '../../shared'
 
 export const getServerInfoTool = defineMethodTool({
-  id: 'get-server-info',
+  id: 'getServerInfo',
   command: 'server_info',
   description: `Get rippled server status: build version, server_state, complete_ledgers, load factor, peers, and the latest validated ledger (seq, hash, base fee, reserves in XRP).
 

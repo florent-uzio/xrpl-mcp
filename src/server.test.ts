@@ -24,7 +24,7 @@ describe('xrpl MCP server', () => {
   })
 
   it('returns the package version from a tool', async () => {
-    const result = await server.executeTool('getMcpVersionTool', {})
+    const result = await server.executeTool('getMcpVersion', {})
     expect(result).toEqual({ status: 'completed', output: { name: packageJson.name, version: packageJson.version } })
   })
 
@@ -59,7 +59,7 @@ describe('xrpl MCP server', () => {
     })
 
     it('refuses a seed on mainnet without connecting', async () => {
-      expect(await errorOf('submitPaymentTool', payment('wss://xrplcluster.com/'))).toMatch(
+      expect(await errorOf('submitPayment', payment('wss://xrplcluster.com/'))).toMatch(
         /Wallet seeds are refused on wss:\/\/xrplcluster\.com\//,
       )
     })
@@ -67,7 +67,7 @@ describe('xrpl MCP server', () => {
     it('lets a seed through the check on a network listed in XRPL_EXTRA_TEST_NETWORKS', async () => {
       // The unreachable URL gets past the check and fails to connect.
       vi.stubEnv('XRPL_EXTRA_TEST_NETWORKS', 'ws://127.0.0.1:1')
-      expect(await errorOf('submitPaymentTool', payment('ws://127.0.0.1:1'))).not.toMatch(/Wallet seeds are refused/)
+      expect(await errorOf('submitPayment', payment('ws://127.0.0.1:1'))).toMatch(/ECONNREFUSED/)
     }, 30_000)
   })
 })
@@ -86,7 +86,7 @@ describe('stdio entry point', () => {
     })
     try {
       const tools = await client.listTools()
-      const result = await tools['xrpl_getMcpVersionTool'].execute?.({}, {} as never)
+      const result = await tools['xrpl_getMcpVersion'].execute?.({}, {} as never)
       expect(JSON.stringify(result)).toContain(packageJson.version)
     } finally {
       await client.disconnect()

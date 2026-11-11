@@ -189,7 +189,7 @@ const recordResults = createStep({
  */
 const iouIssuanceWorkflow = createWorkflow({
   id: 'iou-issuance-workflow',
-  description: `Issues an IOU (trust line token, e.g. a stablecoin-style currency) on an XRPL testnet or devnet: creates and funds an issuer and N holder wallets, sets issuer flags/domain, creates trust lines, and mints IOUs to each holder, then saves a record (wallet addresses and seeds, currency, tx hashes) retrievable with the get-flow-records tool. Not for MPTs (Multi-Purpose Tokens).
+  description: `Issues an IOU (trust line token, e.g. a stablecoin-style currency) on an XRPL testnet or devnet: creates and funds an issuer and N holder wallets, sets issuer flags/domain, creates trust lines, and mints IOUs to each holder, then saves a record (wallet addresses and seeds, currency, tx hashes) retrievable with the getFlowRecords tool. Not for MPTs (Multi-Purpose Tokens).
 ${supportedNetworksText(['testnet', 'devnet'])}`,
   inputSchema: iouIssuanceWorkflowSchema,
   outputSchema: iouIssuanceResultSchema,

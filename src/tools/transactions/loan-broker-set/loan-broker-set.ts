@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitLoanBrokerSetTool = createTransactionTool<LoanBrokerSet>({
-  toolId: 'submit-loan-broker-set',
+  toolId: 'submitLoanBrokerSet',
   description: `Submit a LoanBrokerSet transaction to create or update a loan broker linked to a vault. Only the vault owner can send it. Requires the LendingProtocol amendment.
 
 Omit LoanBrokerID to create a broker. Set it to update one: only Data and DebtMaximum can change. New brokers can only use a closed-ended vault (LendingProtocolV1_1). The response contains the new LoanBroker ID.

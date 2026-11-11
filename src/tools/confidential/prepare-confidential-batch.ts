@@ -119,7 +119,7 @@ export const prepareBatch = async (client: Client, params: PrepareParams) => {
 }
 
 export const prepareConfidentialBatchTool = createTool({
-  id: 'prepare-confidential-batch',
+  id: 'prepareConfidentialBatch',
   description: `Build the unsigned Batch for a Batch that contains at least one confidential MPT operation (convert, convertBack, send, mergeInbox, clawback). Read-only, nothing is submitted. ALWAYS use this instead of building the inner transactions by hand: their ZK proofs and ciphertexts depend on the Sequence of each inner and on the confidential balances as changed by the previous inners, which only this tool computes.
 
 Input:
@@ -139,7 +139,7 @@ confidentialSeed is the family seed of the ElGamal key (not the wallet seed); a 
 
 Limits: a mergeInbox or clawback resets balances the client cannot predict, so later operations on the same holder in the same Batch fail with an error: split those across separate Batches. A holder that has no key yet is registered by its convert.
 
-Output: the Batch with Sequence, Fee, LastLedgerSequence and every inner (Sequence, Fee "0", tfInnerBatchTxn) set. Pass it as-is to submit-batch (innerSeeds for inner accounts other than the outer account, on testnet/devnet) and submit it right away.
+Output: the Batch with Sequence, Fee, LastLedgerSequence and every inner (Sequence, Fee "0", tfInnerBatchTxn) set. Pass it as-is to submitBatch (innerSeeds for inner accounts other than the outer account, on testnet/devnet) and submit it right away.
 
 Seeds are secrets: never repeat them.`,
   inputSchema: z.object({
@@ -153,7 +153,7 @@ Seeds are secrets: never repeat them.`,
     signersCount: z.number().int().min(0).optional().describe('Inner accounts other than the outer account'),
   }),
   outputSchema: z.object({
-    txn: z.looseObject({}).describe('Unsigned Batch, ready for submit-batch'),
+    txn: z.looseObject({}).describe('Unsigned Batch, ready for submitBatch'),
   }),
   execute: async (inputData, { mastra }) => {
     const client = await getXrplClient(inputData.network, mastra)

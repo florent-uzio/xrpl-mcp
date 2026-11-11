@@ -7,6 +7,6 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitDIDDeleteTool = createTransactionTool<DIDDelete>({
-  toolId: 'submit-did-delete',
+  toolId: 'submitDIDDelete',
   description: `Submit a DIDDelete transaction to delete the DID ledger entry of Account. Requires the DID amendment. No fields besides the common ones. Common error: tecNO_ENTRY (the account has no DID).`,
 })

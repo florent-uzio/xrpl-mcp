@@ -7,11 +7,11 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitCheckCashTool = createTransactionTool<CheckCash>({
-  toolId: 'submit-check-cash',
+  toolId: 'submitCheckCash',
   description: `Submit a CheckCash transaction to redeem a Check and receive its funds. Only the Check's Destination can send it.
 
 Fields:
-- CheckID: 64-character hex ID of the Check (find it with get-account-objects, type "check").
+- CheckID: 64-character hex ID of the Check (find it with getAccountObjects, type "check").
 - Amount: exact amount to receive (XRP in drops, or {currency, issuer, value}); must match the Check's SendMax currency and not exceed it.
 - DeliverMin: alternative to Amount; receive as much as possible, but at least this much.
 Provide exactly one of Amount or DeliverMin.

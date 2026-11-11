@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, xrplAddressSchema } from '../../../../helpers'
 import { defineMethodTool } from '../../shared'
 
 export const getVaultInfoTool = defineMethodTool({
-  id: 'get-vault-info',
+  id: 'getVaultInfo',
   command: 'vault_info',
   description: `Get a single-asset vault (XLS-65) and its share (MPT) issuance: owner, pseudo-account, asset, total/available assets, withdrawal policy and shares outstanding. Identify the vault by vault_id, or by owner plus seq (the VaultCreate sequence).`,
   request: z.object({

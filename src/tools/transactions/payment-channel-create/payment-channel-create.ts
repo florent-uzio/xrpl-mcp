@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitPaymentChannelCreateTool = createTransactionTool<PaymentChannelCreate>({
-  toolId: 'submit-payment-channel-create',
+  toolId: 'submitPaymentChannelCreate',
   description: `Submit a PaymentChannelCreate transaction to open a unidirectional XRP payment channel to a destination.
 
 Amount is the XRP in drops locked in the channel (deducted immediately). Destination is the receiver. SettleDelay is the seconds the source must wait before closing a channel that still holds unclaimed XRP. PublicKey is the hex public key (66 chars) used to sign off-ledger claims. CancelAfter is optional and expressed in seconds since the Ripple Epoch (immutable). DestinationTag is an optional 32-bit tag.

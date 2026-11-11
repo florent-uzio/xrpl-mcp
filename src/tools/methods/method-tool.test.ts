@@ -49,7 +49,7 @@ describe('method tools', () => {
   })
 
   it('sends a command xrpl.js does not type yet', async () => {
-    expect(await requestSentBy('getVersionTool', {})).toEqual({ command: 'version' })
+    expect(await requestSentBy('getXrpldApiVersionsTool', {})).toEqual({ command: 'version' })
   })
 
   it('returns the server response', async () => {

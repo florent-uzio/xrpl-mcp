@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitNFTokenAcceptOfferTool = createTransactionTool<NFTokenAcceptOffer>({
-  toolId: 'submit-nftoken-accept-offer',
+  toolId: 'submitNFTokenAcceptOffer',
   description: `Submit an NFTokenAcceptOffer transaction to buy or sell an NFT by accepting an existing NFTokenOffer. No flags.
 
 Modes (at least one offer ID is required):
@@ -15,7 +15,7 @@ Modes (at least one offer ID is required):
 - Direct buy: set NFTokenBuyOffer only, the sender (the NFT owner) sells the NFT.
 - Brokered: set both. The sender is a broker bridging the two offers and may keep NFTokenBrokerFee.
 
-NFTokenBrokerFee is only for brokered mode, must be greater than 0 (omit if none) and uses the same currency/issuer as the offers. XRP amounts are drops, tokens are {currency, issuer, value}. Offer IDs are 64 hex characters (get them with get-account-objects or the NFTokenCreateOffer result).
+NFTokenBrokerFee is only for brokered mode, must be greater than 0 (omit if none) and uses the same currency/issuer as the offers. XRP amounts are drops, tokens are {currency, issuer, value}. Offer IDs are 64 hex characters (get them with getAccountObjects or the NFTokenCreateOffer result).
 
 Errors: tecOBJECT_NOT_FOUND (offer missing or expired), tecCANT_ACCEPT_OWN_NFTOKEN_OFFER, tecNFTOKEN_BUY_SELL_MISMATCH, tecINSUFFICIENT_PAYMENT, tecNO_PERMISSION (offer has a different Destination), tecINSUFFICIENT_FUNDS, tecINSUFFICIENT_RESERVE.`,
 })

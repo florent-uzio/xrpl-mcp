@@ -7,6 +7,6 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitPermissionedDomainDeleteTool = createTransactionTool<PermissionedDomainDelete>({
-  toolId: 'submit-permissioned-domain-delete',
+  toolId: 'submitPermissionedDomainDelete',
   description: `Submit a PermissionedDomainDelete transaction to delete a permissioned domain you own. Requires the PermissionedDomains amendment. DomainID is the 64-char hex ID of the domain. Common errors: tecNO_ENTRY (domain not found), tecNO_PERMISSION (Account is not the owner).`,
 })

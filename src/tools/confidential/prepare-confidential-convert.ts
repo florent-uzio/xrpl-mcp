@@ -37,7 +37,7 @@ export const prepareConvert = async (client: Client, params: PrepareParams) => {
 }
 
 export const prepareConfidentialConvertTool = createTool({
-  id: 'prepare-confidential-convert',
+  id: 'prepareConfidentialConvert',
   description: `Generate the ciphertexts (and key registration proof when needed) for a ConfidentialMPTConvert and return the unsigned transaction. Read-only, nothing is submitted.
 
 Input:
@@ -47,7 +47,7 @@ Input:
 - amount: public amount to convert to confidential (integer string)
 - confidentialSeed: the family seed of the holder's ElGamal key (not the wallet seed). A flow record has it as confidentialSeed(s). If the holder has not registered a key yet, any new seed works and the key is registered by this transaction.
 
-Output: the transaction with BlindingFactor, HolderEncryptedAmount, IssuerEncryptedAmount, AuditorEncryptedAmount (if the issuance has an auditor), HolderEncryptionKey and ZKProof (first conversion only) and Sequence set. Pass it as-is to submit-confidential-mpt-convert (keep Sequence: the proof is bound to it), and submit it right away, before the holder sends anything else. The converted amount lands in the inbox: merge it before spending it.
+Output: the transaction with BlindingFactor, HolderEncryptedAmount, IssuerEncryptedAmount, AuditorEncryptedAmount (if the issuance has an auditor), HolderEncryptionKey and ZKProof (first conversion only) and Sequence set. Pass it as-is to submitConfidentialMPTConvert (keep Sequence: the proof is bound to it), and submit it right away, before the holder sends anything else. The converted amount lands in the inbox: merge it before spending it.
 
 The seed is a secret: never repeat it.`,
   inputSchema: z.object({
@@ -58,7 +58,7 @@ The seed is a secret: never repeat it.`,
     confidentialSeed: z.string().describe('SECRET: family seed of the holder ElGamal key, not the wallet seed'),
   }),
   outputSchema: z.object({
-    txn: z.looseObject({}).describe('Unsigned ConfidentialMPTConvert, ready for submit-confidential-mpt-convert'),
+    txn: z.looseObject({}).describe('Unsigned ConfidentialMPTConvert, ready for submitConfidentialMPTConvert'),
     registersKey: z.boolean().describe('True when this transaction also registers the holder encryption key'),
   }),
   execute: async (inputData, { mastra }) => {

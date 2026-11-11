@@ -2,11 +2,11 @@ import { z } from 'zod'
 import { defineMethodTool } from '../../shared'
 
 export const getServerStateTool = defineMethodTool({
-  id: 'get-server-state',
+  id: 'getServerState',
   command: 'server_state',
   description: `Get rippled server status in machine-readable form: like server_info, but amounts are raw numbers in drops (base fee, reserves) and load factors are unscaled. Includes build version, server_state, complete_ledgers, peers, load factors and the latest validated ledger.
 
-Prefer getServerInfoTool for a human-readable summary.`,
+Prefer getServerInfo for a human-readable summary.`,
   request: z.object({}),
   result: {
     state: z

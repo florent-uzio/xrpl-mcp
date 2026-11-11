@@ -7,6 +7,6 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitMPTokenIssuanceDestroyTool = createTransactionTool<MPTokenIssuanceDestroy>({
-  toolId: 'submit-mptoken-issuance-destroy',
+  toolId: 'submitMPTokenIssuanceDestroy',
   description: `Submit an MPTokenIssuanceDestroy transaction to delete an MPT issuance. Only the issuer can send it, and only when no holder has any of the MPT (holders must first delete their empty MPToken with MPTokenAuthorize flag 1).`,
 })

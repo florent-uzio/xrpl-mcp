@@ -15,16 +15,16 @@ const MODE_FLAGS = [
 ]
 
 export const submitBatchTool = createTransactionTool<Batch>({
-  toolId: 'submit-batch',
+  toolId: 'submitBatch',
   description: `Submit a Batch transaction: 2-8 inner transactions executed atomically per the chosen mode. Requires the Batch amendment.
 
 Flags must be exactly ONE mode: tfAllOrNothing 65536 (all succeed or none apply), tfOnlyOne 131072 (apply the first success only), tfUntilFailure 262144 (apply in order until the first failure), tfIndependent 524288 (apply each regardless of failures).
 
-Confidential MPT inners (ConfidentialMPTConvert, ConvertBack, Send, Clawback): their ZK proofs and ciphertexts cannot be made here. If any RawTransaction is confidential, first call prepare-confidential-batch and pass the Batch it returns unchanged (keep every Sequence); a hand-built confidential inner fails.
+Confidential MPT inners (ConfidentialMPTConvert, ConvertBack, Send, Clawback): their ZK proofs and ciphertexts cannot be made here. If any RawTransaction is confidential, first call prepareConfidentialBatch and pass the Batch it returns unchanged (keep every Sequence); a hand-built confidential inner fails.
 
 RawTransactions: inner transactions with their normal fields (currency codes are hex-encoded automatically). tfInnerBatchTxn is added automatically; Fee, signing fields and Sequence are autofilled. Do not set Fee, SigningPubKey, TxnSignature or Signers on inner transactions. Nested Batch is not allowed.
 
-Multi-account: inner accounts other than the outer Account must sign. On testnet/devnet pass their seeds in innerSeeds and the BatchSigners are created automatically. On mainnet, sign the whole Batch elsewhere and submit it with submit-signed-blob.
+Multi-account: inner accounts other than the outer Account must sign. On testnet/devnet pass their seeds in innerSeeds and the BatchSigners are created automatically. On mainnet, sign the whole Batch elsewhere and submit it with submitSignedBlob.
 
 Errors: temINVALID_FLAG (zero or several modes), temARRAY_EMPTY/temARRAY_TOO_LARGE, temINVALID_INNER_BATCH, tefBAD_AUTH (missing BatchSigners).`,
   buildTransaction: ({ RawTransactions, innerSeeds: _innerSeeds, ...batch }) => {

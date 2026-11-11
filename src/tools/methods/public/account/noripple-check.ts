@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, xrplAddressSchema } from '../../../../helpers'
 import { defineMethodTool } from '../../shared'
 
 export const getNoRippleCheckTool = defineMethodTool({
-  id: 'get-noripple-check',
+  id: 'getNoRippleCheck',
   command: 'noripple_check',
   description: `Check whether an account's DefaultRipple flag and the NoRipple flags of its trust lines are set correctly for its role. Use role "gateway" for token issuers (DefaultRipple on, NoRipple off on lines) and "user" for everyone else (NoRipple on). Returns the problems found and, with transactions true, the AccountSet/TrustSet transactions that would fix them.`,
   request: z.object({

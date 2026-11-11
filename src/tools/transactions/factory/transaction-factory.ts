@@ -43,7 +43,7 @@ const buildSubmittable = async <T extends SubmittableTransaction, S extends Fact
  * })
  *
  * const paymentTool = createTransactionTool({
- *   toolId: 'submit-payment',
+ *   toolId: 'submitPayment',
  *   description: 'Submit a payment transaction',
  *   buildTransaction: (params) => ({ ... }),
  * })

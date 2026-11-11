@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, xrplAddressSchema } from '../../../../helpers'
 import { defineMethodTool } from '../../shared'
 
 export const getGatewayBalancesTool = defineMethodTool({
-  id: 'get-gateway-balances',
+  id: 'getGatewayBalances',
   command: 'gateway_balances',
   description: `Calculate the total tokens an issuer account has issued (obligations), optionally excluding operational "hot wallet" addresses. Some public servers disable this method.
 

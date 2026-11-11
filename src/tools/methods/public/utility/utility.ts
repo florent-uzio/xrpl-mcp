@@ -10,7 +10,7 @@ export const pingTool = defineMethodTool({
 })
 
 export const getRandomTool = defineMethodTool({
-  id: 'get-random',
+  id: 'getRandom',
   command: 'random',
   description: `Get 256 random bits (64 hex characters) from the XRPL server. Not suitable for generating secrets.`,
   request: z.object({}),

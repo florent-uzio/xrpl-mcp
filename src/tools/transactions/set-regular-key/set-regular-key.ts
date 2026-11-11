@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitSetRegularKeyTool = createTransactionTool<SetRegularKey>({
-  toolId: 'submit-set-regular-key',
+  toolId: 'submitSetRegularKey',
   description: `Submit a SetRegularKey transaction to assign, change or remove the regular key pair of the sender account.
 
 RegularKey is the r-address derived from the new key pair; it can then sign transactions in place of the master key. Omitting RegularKey removes the existing regular key. The sender may sign this transaction with the master key for free once (the fee can be waived if lsfPasswordSpent is not set).

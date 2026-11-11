@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitVaultCreateTool = createTransactionTool<VaultCreate>({
-  toolId: 'submit-vault-create',
+  toolId: 'submitVaultCreate',
   description: `Submit a VaultCreate transaction to create a single-asset vault. Depositors receive shares (an MPT) for their deposits. Requires the SingleAssetVault amendment.
 
 Asset is XRP ({currency: "XRP"}), a token ({currency, issuer}) or an MPT ({mpt_issuance_id}). Token issuers need DefaultRipple enabled. The response contains the new Vault ID. Creation burns an owner reserve (about 0.2 XRP) instead of the normal fee.

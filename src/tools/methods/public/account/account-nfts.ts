@@ -3,7 +3,7 @@ import { ledgerSpecifierShape, paginationMarkerSchema, xrplAddressSchema } from 
 import { defineMethodTool } from '../../shared'
 
 export const getAccountNFTsTool = defineMethodTool({
-  id: 'get-account-nfts',
+  id: 'getAccountNFTs',
   command: 'account_nfts',
   description: `List the NFTs owned by an account.
 

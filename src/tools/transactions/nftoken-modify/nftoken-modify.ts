@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitNFTokenModifyTool = createTransactionTool<NFTokenModify>({
-  toolId: 'submit-nftoken-modify',
+  toolId: 'submitNFTokenModify',
   description: `Submit an NFTokenModify transaction to change or clear the URI of a mutable NFT. No flags. Requires the DynamicNFT amendment.
 
 The NFT must have been minted with tfMutable. Only the issuer or its authorized NFTokenMinter can modify it. If the NFT is held by another account, set Owner to that holder.

@@ -75,7 +75,7 @@ describe('assertSeedAllowed', () => {
 
   it('names the network and the two ways forward', () => {
     expect(() => assertSeedAllowed('wss://xrplcluster.com/')).toThrow(
-      /wss:\/\/xrplcluster\.com\/.*submit-signed-blob.*XRPL_EXTRA_TEST_NETWORKS/s,
+      /wss:\/\/xrplcluster\.com\/.*submitSignedBlob.*XRPL_EXTRA_TEST_NETWORKS/s,
     )
   })
 })

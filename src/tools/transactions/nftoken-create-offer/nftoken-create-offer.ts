@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitNFTokenCreateOfferTool = createTransactionTool<NFTokenCreateOffer>({
-  toolId: 'submit-nftoken-create-offer',
+  toolId: 'submitNFTokenCreateOffer',
   description: `Submit an NFTokenCreateOffer transaction to create a buy or sell offer for an NFT. The response contains the new offer ID.
 
 Flags: tfSellNFToken (1) makes it a sell offer. Without it, it is a buy offer.

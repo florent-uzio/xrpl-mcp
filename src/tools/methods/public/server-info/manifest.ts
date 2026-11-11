@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { defineMethodTool } from '../../shared'
 
 export const getManifestTool = defineMethodTool({
-  id: 'get-manifest',
+  id: 'getManifest',
   command: 'manifest',
   description: `Look up the public manifest of a known XRPL validator: its domain, master key, ephemeral (signing) key and manifest sequence number. Details are omitted if the server has no manifest for the key.`,
   request: z.object({

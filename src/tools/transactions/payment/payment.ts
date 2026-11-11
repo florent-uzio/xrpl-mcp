@@ -5,7 +5,7 @@ import { xrplPaymentSchema } from './payment.types'
 const { createTransactionTool } = useTransactionToolFactory({ inputSchema: xrplPaymentSchema })
 
 export const submitPaymentTool = createTransactionTool<Payment>({
-  toolId: 'submit-payment',
+  toolId: 'submitPayment',
   description: `Submit a Payment transaction to send XRP, tokens or MPTs. Sending enough XRP to an unfunded address creates the account.
 
 - Provide Amount (API v1) or DeliverMax (API v2).

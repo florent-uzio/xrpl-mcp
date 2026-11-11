@@ -7,7 +7,7 @@ const { createTransactionTool } = useTransactionToolFactory({
 })
 
 export const submitVaultDepositTool = createTransactionTool<VaultDeposit>({
-  toolId: 'submit-vault-deposit',
+  toolId: 'submitVaultDeposit',
   description: `Submit a VaultDeposit transaction to deposit assets into a vault in exchange for shares. Requires the SingleAssetVault amendment.
 
 Amount is XRP in drops, or {currency, issuer, value} for a token, or {mpt_issuance_id, value} for an MPT. It must be the vault's asset. The amount is rounded down to the vault's precision. No transfer fee applies.

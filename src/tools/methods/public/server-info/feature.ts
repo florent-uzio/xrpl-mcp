@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { defineMethodTool } from '../../shared'
 
 export const getFeatureTool = defineMethodTool({
-  id: 'get-feature',
+  id: 'getFeature',
   command: 'feature',
   description: `Get the status of XRPL protocol amendments: whether each is enabled in the latest ledger and whether the server supports it. Pass a name or ID to check one amendment, or omit it to list all.
 

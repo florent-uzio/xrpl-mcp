@@ -27,7 +27,7 @@ describe('records tools', () => {
     await rm(dir, { recursive: true })
   })
 
-  it('saves a manual record that get-flow-records can read back', async () => {
+  it('saves a manual record that getFlowRecords can read back', async () => {
     const data = { wallets: [{ address: 'rA', seed: 'sA' }], nftId: 'ABC' }
     const saved = await saveFlowRecordTool.execute!({ flow: 'manual-nft-test', network: TESTNET, data }, {} as never)
 
