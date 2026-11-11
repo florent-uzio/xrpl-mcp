@@ -2,7 +2,7 @@
 
 ### Issue tracker
 
-Issues are tracked in GitHub Issues on florent-uzio/xrpl-mastra-ai, via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+Issues are tracked in GitHub Issues on florent-uzio/xrpl-mcp, via the `gh` CLI. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 

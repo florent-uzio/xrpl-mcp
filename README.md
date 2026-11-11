@@ -61,7 +61,7 @@ The agent always has 6 core tools: account info, server info, and the XRP and cu
 | Variable                   | Purpose                                                                                                                                                                                                                           |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ANTHROPIC_API_KEY`        | Model key for the agent and the evals. `OPENAI_API_KEY` and `GROQ_API_KEY` are only needed to try other models.                                                                                                                   |
-| `XRPL_RECORDS_DIR`         | Folder for flow records. The MCP server defaults to `~/.xrpl-mastra-ai/records`. Set the same folder in `.env` so Studio shares the records.                                                                                      |
+| `XRPL_RECORDS_DIR`         | Folder for flow records. The MCP server defaults to `~/.xrpl-mcp/records`. Set the same folder in `.env` so Studio shares the records.                                                                                            |
 | `XRPL_EXTRA_TEST_NETWORKS` | Comma-separated URLs of other test networks where seeds are allowed, e.g. a local node. Pass it to the MCP server with `claude mcp add xrpl --env XRPL_EXTRA_TEST_NETWORKS=ws://localhost:6006 -- npx -y @florent-uzio/xrpl-mcp`. |
 
 ## Workflows
@@ -116,4 +116,4 @@ npm run eval           # accuracy, cost and latency of the agent (see evals/READ
 npm run build:mcp      # build the MCP package
 ```
 
-Domain terms are in [CONTEXT.md](https://github.com/florent-uzio/xrpl-mastra-ai/blob/main/CONTEXT.md). Releases of the MCP package follow [RELEASING.md](https://github.com/florent-uzio/xrpl-mastra-ai/blob/main/RELEASING.md).
+Domain terms are in [CONTEXT.md](https://github.com/florent-uzio/xrpl-mcp/blob/main/CONTEXT.md). Releases of the MCP package follow [RELEASING.md](https://github.com/florent-uzio/xrpl-mcp/blob/main/RELEASING.md).

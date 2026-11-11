@@ -22,8 +22,8 @@ describe('flow records', () => {
   })
 
   it('expands a leading ~ in XRPL_RECORDS_DIR to the home directory', () => {
-    process.env.XRPL_RECORDS_DIR = '~/.xrpl-mastra-ai/records'
-    expect(getRecordsDir()).toBe(path.join(homedir(), '.xrpl-mastra-ai', 'records'))
+    process.env.XRPL_RECORDS_DIR = '~/.xrpl-mcp/records'
+    expect(getRecordsDir()).toBe(path.join(homedir(), '.xrpl-mcp', 'records'))
   })
 
   it('saves a record and lists it back, newest first, filtered by flow', async () => {
