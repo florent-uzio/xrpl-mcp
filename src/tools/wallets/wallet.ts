@@ -69,14 +69,12 @@ Funding can take a few seconds.`,
   outputSchema: walletOutputSchema.extend({
     balance: z.number().describe('XRP balance after funding'),
   }),
-  execute: async (inputData, { mastra }) => {
+  execute: async inputData => {
     const { network, seed, opts } = inputData
-
-    const logger = mastra?.getLogger()
 
     if (seed) assertSeedAllowed(network)
 
-    const client = await getXrplClient(network, mastra)
+    const client = await getXrplClient(network)
 
     const options = {
       ...opts,
@@ -88,23 +86,13 @@ Funding can take a few seconds.`,
     if (seed) {
       const walletInstance = Wallet.fromSeed(seed)
 
-      logger?.info(
-        `Funding wallet ${walletInstance.address} with the following options: ${JSON.stringify(options)} on ${network}`,
-      )
-
       const fundedWallet = await client.fundWallet(walletInstance, options)
-
-      logger?.info(`Wallet ${walletInstance.address} funded successfully`)
 
       return { ...toWalletOutput(fundedWallet.wallet), balance: fundedWallet.balance }
     }
 
     // Otherwise create a new wallet
-    logger?.info(`No wallet provided, creating a new one`)
-
     const { wallet: newWallet, balance } = await client.fundWallet(null, options)
-
-    logger?.info(`Wallet ${newWallet.address} funded successfully`)
 
     return { ...toWalletOutput(newWallet), balance }
   },

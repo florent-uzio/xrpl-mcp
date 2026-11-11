@@ -155,8 +155,8 @@ Seeds are secrets: never repeat them.`,
   outputSchema: z.object({
     txn: z.looseObject({}).describe('Unsigned Batch, ready for submitBatch'),
   }),
-  execute: async (inputData, { mastra }) => {
-    const client = await getXrplClient(inputData.network, mastra)
+  execute: async inputData => {
+    const client = await getXrplClient(inputData.network)
     return { txn: await withReadableErrors(() => prepareBatch(client, inputData)) }
   },
 })

@@ -64,7 +64,7 @@ export const useTransactionToolFactory = <S extends FactorySchema>(params: S) =>
       outputSchema: transactionResponseSchema,
       // The transaction is already submitted when the result is validated: never turn it into an error (the model would retry)
       outputValidation: 'warn',
-      execute: async (inputData, { mastra }) => {
+      execute: async inputData => {
         if (!inputData) {
           throw new Error('Input data not found - ensure the tool is called with proper input')
         }
@@ -75,14 +75,13 @@ export const useTransactionToolFactory = <S extends FactorySchema>(params: S) =>
         let builtTxn = await buildSubmittable(config, input)
 
         if (config.prepareTransaction) {
-          builtTxn = await config.prepareTransaction({ txn: builtTxn, input, network, mastra })
+          builtTxn = await config.prepareTransaction({ txn: builtTxn, input, network })
         }
 
         // Fail before opening a socket: a seed must never reach a node that is not a test network
         assertSeedAllowed(network)
 
-        const client = await getXrplClient(network, mastra)
-        mastra?.getLogger()?.info('Submitting transaction', { network, txn: builtTxn })
+        const client = await getXrplClient(network)
 
         const { ok, engineResult, response } = await submit(client, builtTxn, { wallet: Wallet.fromSeed(seed) })
 

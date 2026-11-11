@@ -63,10 +63,10 @@ The seeds are secrets: never repeat them.`,
     tx_blob: z.string().describe('Signed blob, ready for submitSignedBlob'),
     hash: z.string().describe('Transaction hash'),
   }),
-  execute: async ({ network, ...params }, { mastra }) => {
+  execute: async ({ network, ...params }) => {
     // Before any connection: a seed must never reach a node that is not a test network
     assertSeedAllowed(network)
-    const client = await getXrplClient(network, mastra)
+    const client = await getXrplClient(network)
     const { tx, tx_blob, hash } = await signLoanSet(client, params)
     return { txn: tx as unknown as Record<string, unknown>, tx_blob, hash }
   },

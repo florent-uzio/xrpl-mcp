@@ -15,11 +15,11 @@ const createWallets = createStep({
   description: 'Creates and funds wallets for the issuer and all token holders',
   inputSchema: iouIssuanceWorkflowSchema,
   outputSchema: walletsSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { network, holders: numHolders } = inputData
 
     try {
-      const [issuer, ...holders] = await fundWallets(network, numHolders + 1, mastra)
+      const [issuer, ...holders] = await fundWallets(network, numHolders + 1)
 
       return { ...inputData, issuer, holders }
     } catch (error) {
@@ -34,7 +34,7 @@ const setupIssuerAccount = createStep({
   description: 'Configures the issuer account with specified flags and settings',
   inputSchema: walletsSchema,
   outputSchema: settingsSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuer, network, issuerSettings } = inputData
     const flags = issuerSettings.flags ?? []
 
@@ -43,7 +43,7 @@ const setupIssuerAccount = createStep({
     }
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const txnResults: TxnResult[] = []
 
       // Sequential: same account, so transactions must not race on the sequence number
@@ -75,12 +75,12 @@ const createTrustLines = createStep({
   description: 'Creates trust lines between holders and issuer for the token',
   inputSchema: settingsSchema,
   outputSchema: settingsSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuer, holders, network, trustline, txnResults } = inputData
 
     try {
       const currencyHex = currencyCodeToHex(trustline.currency)
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
 
       // Parallel: each holder signs with its own wallet
       const results = await Promise.all(
@@ -112,11 +112,11 @@ const mintTokens = createStep({
   description: 'Mints tokens by sending payments from issuer to holders',
   inputSchema: settingsSchema,
   outputSchema: settingsSchema,
-  execute: async ({ inputData, mastra }) => {
+  execute: async ({ inputData }) => {
     const { issuer, holders, network, mintAmount, trustline, txnResults } = inputData
 
     try {
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const results: TxnResult[] = []
 
       // Sequential: same sender account (sequence numbers)

@@ -60,8 +60,8 @@ The seed is a secret: never repeat it.`,
     txn: z.looseObject({}).describe('Unsigned ConfidentialMPTClawback, ready for submitConfidentialMPTClawback'),
     amount: z.string().describe('Whole confidential balance being clawed back (MPTAmount)'),
   }),
-  execute: async (inputData, { mastra }) => {
-    const client = await getXrplClient(inputData.network, mastra)
+  execute: async inputData => {
+    const client = await getXrplClient(inputData.network)
     const txn = await withReadableErrors(() => prepareClawback(client, inputData))
     return { txn, amount: txn.MPTAmount }
   },

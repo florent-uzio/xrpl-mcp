@@ -90,9 +90,9 @@ The seed is a secret: never repeat it.`,
     spending: z.string().optional().describe('Holder role only: spendable balance'),
     inbox: z.string().optional().describe('Holder role only: received but not yet merged into spending'),
   }),
-  execute: async (inputData, { mastra }) => {
+  execute: async inputData => {
     const { network, holder, role } = inputData
-    const client = await getXrplClient(network, mastra)
+    const client = await getXrplClient(network)
     const { ledgerIndex, total, spending, inbox } = await decryptConfidentialBalance(client, inputData)
     return {
       holder,

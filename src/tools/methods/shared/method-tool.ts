@@ -34,12 +34,11 @@ export const defineMethodTool = <TRequest extends z.ZodObject, TResult extends z
     outputSchema: xrplMethodResponse(result),
     // The schema documents the response; a server answer that differs is logged, never rejected
     outputValidation: 'warn',
-    execute: async (inputData, { mastra }) => {
+    execute: async inputData => {
       // TS cannot narrow a generic zod object, so name the two fields it always has
       const { network, request } = inputData as { network: string; request: object }
-      const client = await getXrplClient(network, mastra)
+      const client = await getXrplClient(network)
       const sent = { ...encodeCurrencyCodesDeep(request), command }
-      mastra?.getLogger()?.info(`${command} request`, { url: client.url, opts: JSON.stringify(sent) })
       // command is checked by the tests, not the type: xrpl.js does not type every command (e.g. version)
       return await client.request(sent as unknown as Request)
     },

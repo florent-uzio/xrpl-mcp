@@ -1,4 +1,3 @@
-import { ToolExecutionContext } from '@mastra/core/tools'
 import { SubmittableTransaction, TransactionMetadata, TxResponse, Wallet } from 'xrpl'
 import z from 'zod'
 import { getXrplClient, LedgerClient, submit, toWalletRecord, WalletRecord } from '../helpers'
@@ -71,11 +70,7 @@ export const createdEntryId = (response: TxResponse, type: string): string => {
 }
 
 /** Funds `count` new wallets from the faucet, in parallel. */
-export const fundWallets = async (
-  network: string,
-  count: number,
-  mastra: ToolExecutionContext['mastra'],
-): Promise<WalletRecord[]> => {
-  const client = await getXrplClient(network, mastra)
+export const fundWallets = async (network: string, count: number): Promise<WalletRecord[]> => {
+  const client = await getXrplClient(network)
   return Promise.all(Array.from({ length: count }, async () => toWalletRecord((await client.fundWallet()).wallet)))
 }
