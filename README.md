@@ -60,14 +60,14 @@ The server exposes each workflow as `run_<name>`.
 | `confidential-mpt` | devnet          | Creates or reuses a confidential MPT, registers the ElGamal keys, converts a holder balance to confidential, then optionally sends and converts back.            |
 | `lending-setup`    | devnet          | Creates a transferable MPT, a closed-ended vault, a deposit, a loan broker and its first-loss cover. The loan itself is created afterwards with `sign-loan-set`. |
 
-The input of each workflow is described in its schema, in `src/mastra/workflows/*.types.ts`.
+The input of each workflow is described in its schema, in `src/workflows/*.types.ts`.
 
 ## Add a tool
 
 Transaction tools use the factory. It adds `network` and `seed`, refuses seeds outside test networks, hex-encodes every currency code, then autofills, signs and submits the transaction:
 
 ```typescript
-// src/mastra/tools/transactions/payment/payment.ts
+// src/tools/transactions/payment/payment.ts
 import { Payment } from 'xrpl'
 import { useTransactionToolFactory } from '../factory'
 import { xrplPaymentSchema } from './payment.types'
@@ -88,9 +88,9 @@ export const submitPaymentTool = createTransactionTool<Payment>({
 })
 ```
 
-Query tools use `defineMethodTool` (`src/mastra/tools/methods/shared/method-tool.ts`), with the method name and the request and result schemas.
+Query tools use `defineMethodTool` (`src/tools/methods/shared/method-tool.ts`), with the method name and the request and result schemas.
 
-Export the new tool from its folder's `index.ts`. `src/mastra/catalog.ts` picks up every tool exported from `src/mastra/tools`, so the server exposes it.
+Export the new tool from its folder's `index.ts`. `src/catalog.ts` picks up every tool exported from `src/tools`, so the server exposes it.
 
 ## Development
 
