@@ -14,23 +14,12 @@ An MCP server, [`@florent-uzio/xrpl-mcp`](https://www.npmjs.com/package/@florent
 You only need Node.js 22.13 or later. No model API key is required: Claude Code does the reasoning and calls the tools.
 
 ```bash
-claude mcp add xrpl -- npx -y @florent-uzio/xrpl-mcp
+claude mcp add xrpl -- npx -y @florent-uzio/xrpl-mcp@latest
 ```
 
 Then ask Claude things like "What is the balance of rXXX on mainnet?" or "Issue an MPT on testnet with 2 holders".
 
-<details>
-<summary>The new version isn't picked up</summary>
-
-`npx` loads a new release the next time Claude Code starts the server: start a new session, or reconnect `xrpl` from `/mcp`.
-
-If you still get the old version, or `No matching version found`, your npm cache is outdated. Refresh it once (the server then waits for input, stop it with Ctrl+C), then reconnect:
-
-```bash
-npx -y --prefer-online @florent-uzio/xrpl-mcp
-```
-
-</details>
+`@latest` makes `npx` check npm each time Claude Code starts the server, so a new release loads in your next session, or when you reconnect `xrpl` from `/mcp`. To stay on one version, pin it instead, e.g. `@florent-uzio/xrpl-mcp@2.0.0`.
 
 To run the server from a clone of this repo instead:
 
@@ -44,10 +33,10 @@ claude mcp add xrpl -- npm --prefix "$(pwd)" run --silent mcp
 - **Seeds are refused outside test networks**, before any connection is made. On mainnet, sign the transaction yourself and submit the blob with `submitSignedBlob`.
 - **Flow records** keep what a session creates (wallets, MPT IDs, keys, hashes), so a later session can reuse it. `saveFlowRecord` refuses seeds and private keys on mainnet.
 
-| Variable                   | Purpose                                                                                                                                                                                                                           |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `XRPL_RECORDS_DIR`         | Folder for flow records. Defaults to `~/.xrpl-mcp/records`.                                                                                                                                                                       |
-| `XRPL_EXTRA_TEST_NETWORKS` | Comma-separated URLs of other test networks where seeds are allowed, e.g. a local node. Pass it to the MCP server with `claude mcp add xrpl --env XRPL_EXTRA_TEST_NETWORKS=ws://localhost:6006 -- npx -y @florent-uzio/xrpl-mcp`. |
+| Variable                   | Purpose                                                                                                                                                                                                                                  |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `XRPL_RECORDS_DIR`         | Folder for flow records. Defaults to `~/.xrpl-mcp/records`.                                                                                                                                                                              |
+| `XRPL_EXTRA_TEST_NETWORKS` | Comma-separated URLs of other test networks where seeds are allowed, e.g. a local node. Pass it to the MCP server with `claude mcp add xrpl --env XRPL_EXTRA_TEST_NETWORKS=ws://localhost:6006 -- npx -y @florent-uzio/xrpl-mcp@latest`. |
 
 ## Workflows
 
