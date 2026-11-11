@@ -13,7 +13,8 @@ import {
   mptIssuanceWorkflowSchema,
   walletsSchema,
 } from './mpt-issuance-workflow.types'
-import { errorMessage, fundWallets, submitStep, TxnResult } from './shared'
+import { attempt, fundWallets, submitStep } from './steps'
+import { TxnResult } from './results'
 
 /** Step 1: creates and funds the issuer and holder wallets. */
 const createWallets = createStep({
@@ -22,13 +23,11 @@ const createWallets = createStep({
   inputSchema: mptIssuanceWorkflowSchema,
   outputSchema: walletsSchema,
   execute: async ({ inputData }) => {
-    try {
-      const [issuer, ...holders] = await fundWallets(inputData.network, inputData.holders + 1)
+    return attempt('create wallets', async () => {
+      const [issuer, ...holders] = await fundWallets(await getXrplClient(inputData.network), inputData.holders + 1)
 
       return { ...inputData, issuer, holders }
-    } catch (error) {
-      throw new Error(`Failed to create wallets: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -41,7 +40,7 @@ const createIssuance = createStep({
   execute: async ({ inputData }) => {
     const { issuer, network, issuance } = inputData
 
-    try {
+    return attempt('create MPT issuance', async () => {
       const client = await getXrplClient(network)
 
       const tx: MPTokenIssuanceCreate = {
@@ -62,9 +61,7 @@ const createIssuance = createStep({
       }
 
       return { ...inputData, mptIssuanceId: mpt_issuance_id, txnResults: [result] }
-    } catch (error) {
-      throw new Error(`Failed to create MPT issuance: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -77,7 +74,7 @@ const holdersOptIn = createStep({
   execute: async ({ inputData }) => {
     const { holders, network, mptIssuanceId, txnResults } = inputData
 
-    try {
+    return attempt('opt holders in', async () => {
       const client = await getXrplClient(network)
 
       // Parallel: each holder signs with its own wallet
@@ -94,9 +91,7 @@ const holdersOptIn = createStep({
       )
 
       return { ...inputData, txnResults: [...txnResults, ...results] }
-    } catch (error) {
-      throw new Error(`Failed to opt holders in: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -113,7 +108,7 @@ const authorizeHolders = createStep({
       return inputData
     }
 
-    try {
+    return attempt('authorize holders', async () => {
       const client = await getXrplClient(network)
       const results: TxnResult[] = []
 
@@ -130,9 +125,7 @@ const authorizeHolders = createStep({
       }
 
       return { ...inputData, txnResults: [...txnResults, ...results] }
-    } catch (error) {
-      throw new Error(`Failed to authorize holders: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -145,7 +138,7 @@ const mintTokens = createStep({
   execute: async ({ inputData }) => {
     const { issuer, holders, network, mintAmount, mptIssuanceId, txnResults } = inputData
 
-    try {
+    return attempt('mint MPT', async () => {
       const client = await getXrplClient(network)
       const results: TxnResult[] = []
 
@@ -162,9 +155,7 @@ const mintTokens = createStep({
       }
 
       return { ...inputData, txnResults: [...txnResults, ...results] }
-    } catch (error) {
-      throw new Error(`Failed to mint MPT: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -177,7 +168,7 @@ const recordResults = createStep({
   execute: async ({ inputData }) => {
     const { issuer, holders, network, issuance, mintAmount, mptIssuanceId, txnResults } = inputData
 
-    try {
+    return attempt('save the record', async () => {
       const { record, path } = await saveFlowRecord({
         flow: 'mpt-issuance',
         network,
@@ -200,9 +191,7 @@ const recordResults = createStep({
         recordId: record.id,
         recordPath: path,
       }
-    } catch (error) {
-      throw new Error(`Failed to save the record: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 

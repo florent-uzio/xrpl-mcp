@@ -20,7 +20,8 @@ import {
   vaultSchema,
   walletsSchema,
 } from './lending-setup-workflow.types'
-import { createdEntryId, errorMessage, fundWallets, submitStep, TxnResult } from './shared'
+import { createdEntryId, attempt, fundWallets, submitStep } from './steps'
+import { TxnResult } from './results'
 
 /** Step 1: funds the vault owner, depositor and borrower wallets, plus the issuer when a new MPT is created. */
 const createWallets = createStep({
@@ -31,24 +32,25 @@ const createWallets = createStep({
   execute: async ({ inputData }) => {
     const { network, issuance } = inputData
 
-    try {
-      if (issuance.source === 'existing') {
-        assertSeedAllowed(network)
-        const [vaultOwner, depositor, borrower] = await fundWallets(network, 3)
-        return {
-          ...inputData,
-          issuer: toWalletRecord(Wallet.fromSeed(issuance.issuerSeed)),
-          vaultOwner,
-          depositor,
-          borrower,
-        }
+    return attempt('create wallets', async () => {
+      // Before any connection: the seed of an existing issuer must only go to a test network
+      if (issuance.source === 'existing') assertSeedAllowed(network)
+      const client = await getXrplClient(network)
+
+      if (issuance.source === 'create') {
+        const [issuer, vaultOwner, depositor, borrower] = await fundWallets(client, 4)
+        return { ...inputData, issuer, vaultOwner, depositor, borrower }
       }
 
-      const [issuer, vaultOwner, depositor, borrower] = await fundWallets(network, 4)
-      return { ...inputData, issuer, vaultOwner, depositor, borrower }
-    } catch (error) {
-      throw new Error(`Failed to create wallets: ${errorMessage(error)}`)
-    }
+      const [vaultOwner, depositor, borrower] = await fundWallets(client, 3)
+      return {
+        ...inputData,
+        issuer: toWalletRecord(Wallet.fromSeed(issuance.issuerSeed)),
+        vaultOwner,
+        depositor,
+        borrower,
+      }
+    })
   },
 })
 
@@ -65,7 +67,7 @@ const createIssuance = createStep({
       return { ...inputData, mptIssuanceId: issuance.mptIssuanceId, txnResults: [] }
     }
 
-    try {
+    return attempt('create MPT issuance', async () => {
       const client = await getXrplClient(network)
 
       const tx: MPTokenIssuanceCreate = {
@@ -83,9 +85,7 @@ const createIssuance = createStep({
       }
 
       return { ...inputData, mptIssuanceId: mpt_issuance_id, txnResults: [result] }
-    } catch (error) {
-      throw new Error(`Failed to create MPT issuance: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -99,7 +99,7 @@ const distributeTokens = createStep({
     const { issuer, vaultOwner, depositor, borrower, network, mintAmount, mptIssuanceId, txnResults } = inputData
     const holders = [vaultOwner, depositor, borrower]
 
-    try {
+    return attempt('distribute the MPT', async () => {
       const client = await getXrplClient(network)
 
       // Parallel: each holder signs with its own wallet
@@ -129,9 +129,7 @@ const distributeTokens = createStep({
       }
 
       return { ...inputData, txnResults: [...txnResults, ...optIns, ...payments] }
-    } catch (error) {
-      throw new Error(`Failed to distribute the MPT: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -147,7 +145,7 @@ const createVault = createStep({
   execute: async ({ inputData }) => {
     const { vaultOwner, network, mptIssuanceId, subscriptionSeconds, investmentSeconds, txnResults } = inputData
 
-    try {
+    return attempt('create the vault', async () => {
       const client = await getXrplClient(network)
 
       const ledger = await client.request({ command: 'ledger', ledger_index: 'validated' })
@@ -172,9 +170,7 @@ const createVault = createStep({
         redemptionDate,
         txnResults: [...txnResults, result],
       }
-    } catch (error) {
-      throw new Error(`Failed to create the vault: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -187,7 +183,7 @@ const depositIntoVault = createStep({
   execute: async ({ inputData }) => {
     const { depositor, network, mptIssuanceId, vaultId, depositAmount, txnResults } = inputData
 
-    try {
+    return attempt('deposit into the vault', async () => {
       const client = await getXrplClient(network)
 
       const tx: VaultDeposit = {
@@ -200,9 +196,7 @@ const depositIntoVault = createStep({
       const { result } = await submitStep(client, tx, depositor, `Deposited ${depositAmount} into the vault`)
 
       return { ...inputData, txnResults: [...txnResults, result] }
-    } catch (error) {
-      throw new Error(`Failed to deposit into the vault: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -216,7 +210,7 @@ const createLoanBroker = createStep({
     const { vaultOwner, network, mptIssuanceId, vaultId, coverAmount, txnResults } = inputData
     const { managementFeeRate, coverRateMinimum, coverRateLiquidation } = inputData
 
-    try {
+    return attempt('set up the loan broker', async () => {
       const client = await getXrplClient(network)
 
       // Sequential: same sender account (sequence numbers), and the cover needs the broker ID
@@ -250,9 +244,7 @@ const createLoanBroker = createStep({
       )
 
       return { ...inputData, loanBrokerId, txnResults: [...txnResults, brokerResult, coverResult] }
-    } catch (error) {
-      throw new Error(`Failed to set up the loan broker: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
@@ -267,7 +259,7 @@ const recordResults = createStep({
     const { issuer, vaultOwner, depositor, borrower, network, mptIssuanceId, vaultId, loanBrokerId } = inputData
     const { subscriptionDate, redemptionDate, txnResults } = inputData
 
-    try {
+    return attempt('save the record', async () => {
       if (!loanBrokerId) {
         throw new Error('LoanBroker ID missing')
       }
@@ -304,9 +296,7 @@ const recordResults = createStep({
         recordId: record.id,
         recordPath: path,
       }
-    } catch (error) {
-      throw new Error(`Failed to save the record: ${errorMessage(error)}`)
-    }
+    })
   },
 })
 
