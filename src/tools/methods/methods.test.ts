@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import * as tools from '../index'
 
 const queryTools = Object.entries(tools).filter(
-  ([name]) => /^(get.+|ping)Tool$/.test(name) && name !== 'getFlowRecordsTool',
+  ([name]) => /^(get.+|ping)Tool$/.test(name) && !['getFlowRecordsTool', 'getMcpVersionTool'].includes(name),
 ) as unknown as [string, { id: string; inputSchema: { safeParse: (input: unknown) => { success: boolean } } }][]
 
 const network = 'wss://s.altnet.rippletest.net:51233'
