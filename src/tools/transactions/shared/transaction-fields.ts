@@ -1,5 +1,5 @@
 import z from 'zod'
-import { xrplAddressSchema, xrplDecimalValueSchema } from '../../../../helpers'
+import { xrplAddressSchema, xrplDecimalValueSchema } from '../../../helpers'
 
 /**
  * Issued currency amount object (tokens only; XRP is a string of drops)

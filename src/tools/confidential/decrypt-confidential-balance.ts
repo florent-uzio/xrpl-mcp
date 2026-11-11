@@ -1,7 +1,7 @@
 import { createTool } from '@mastra/core/tools'
 import { Client, deriveConfidentialKeypair, fetchMPToken, fetchMPTokenIssuance, loadMptCrypto } from 'xrpl'
 import { z } from 'zod'
-import { getXrplClient, networkSchema, xrplAddressSchema } from '../../../helpers'
+import { getXrplClient, networkSchema, xrplAddressSchema } from '../../helpers'
 import { assertKeyMatches } from './shared'
 
 const roleSchema = z.enum(['holder', 'issuer', 'auditor'])

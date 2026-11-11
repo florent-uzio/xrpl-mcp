@@ -1,7 +1,7 @@
 import { createTool } from '@mastra/core/tools'
 import { Client, LoanSet } from 'xrpl'
 import { z } from 'zod'
-import { autofill, getXrplClient, networkSchema } from '../../../../helpers'
+import { autofill, getXrplClient, networkSchema } from '../../../helpers'
 import { xrplLoanSetSchema } from './loan-set.types'
 
 const DEFAULT_EXPIRY_LEDGERS = 200

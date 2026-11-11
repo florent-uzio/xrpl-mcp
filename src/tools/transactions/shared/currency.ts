@@ -1,7 +1,7 @@
 import { createTool } from '@mastra/core/tools'
 import { convertHexToString } from 'xrpl'
 import { z } from 'zod'
-import { currencyCodeToHex } from '../../../../helpers'
+import { currencyCodeToHex } from '../../../helpers'
 
 export const currencyCodeToHexTool = createTool({
   id: 'currency-code-to-hex',

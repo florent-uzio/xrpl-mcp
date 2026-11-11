@@ -10,7 +10,7 @@ const outDir = join(root, 'dist')
 const { metafile } = await build({
   // metafile input paths are relative to this
   absWorkingDir: root,
-  entryPoints: [join(root, 'src/mcp/stdio.ts')],
+  entryPoints: [join(root, 'src/stdio.ts')],
   outfile: join(outDir, 'xrpl-mcp.js'),
   bundle: true,
   minify: true,

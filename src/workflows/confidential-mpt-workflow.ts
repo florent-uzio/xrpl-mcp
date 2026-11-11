@@ -18,7 +18,7 @@ import {
   Wallet,
 } from 'xrpl'
 import type { ECDSA } from 'xrpl'
-import { assertSeedAllowed, getXrplClient, saveFlowRecord, toWalletRecord, supportedNetworksText } from '../../helpers'
+import { assertSeedAllowed, getXrplClient, saveFlowRecord, toWalletRecord, supportedNetworksText } from '../helpers'
 import {
   confidentialMptResultSchema,
   confidentialMptWorkflowSchema,

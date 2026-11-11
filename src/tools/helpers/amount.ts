@@ -1,7 +1,7 @@
 import { createTool } from '@mastra/core/tools'
 import { dropsToXrp, xrpToDrops } from 'xrpl'
 import { z } from 'zod'
-import { xrplDecimalValueSchema } from '../../../helpers'
+import { xrplDecimalValueSchema } from '../../helpers'
 
 export const xrpToDropsTool = createTool({
   id: 'xrp-to-drops',

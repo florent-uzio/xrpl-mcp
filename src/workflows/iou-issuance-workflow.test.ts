@@ -3,11 +3,11 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { SubmittableTransaction, Wallet } from 'xrpl'
 import { describe, expect, it, vi } from 'vitest'
-import { getXrplClient } from '../../helpers'
+import { getXrplClient } from '../helpers'
 import { iouIssuanceWorkflow } from './iou-issuance-workflow'
 
-vi.mock('../../helpers', async importOriginal => ({
-  ...(await importOriginal<typeof import('../../helpers')>()),
+vi.mock('../helpers', async importOriginal => ({
+  ...(await importOriginal<typeof import('../helpers')>()),
   getXrplClient: vi.fn(),
 }))
 

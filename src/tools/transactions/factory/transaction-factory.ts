@@ -1,7 +1,7 @@
 import { createTool } from '@mastra/core/tools'
 import { SubmittableTransaction, Wallet } from 'xrpl'
 import { z } from 'zod'
-import { assertSeedAllowed, getXrplClient, submit } from '../../../../helpers'
+import { assertSeedAllowed, getXrplClient, submit } from '../../../helpers'
 import { encodeCurrencyCodesDeep } from '../shared/asset'
 import {
   baseTransactionSchema,

@@ -1,6 +1,6 @@
 import { createStep, createWorkflow } from '@mastra/core/workflows'
 import { AccountSet, AccountSetAsfFlags, convertStringToHex, Payment, TrustSet } from 'xrpl'
-import { currencyCodeToHex, getXrplClient, saveFlowRecord, supportedNetworksText } from '../../helpers'
+import { currencyCodeToHex, getXrplClient, saveFlowRecord, supportedNetworksText } from '../helpers'
 import {
   iouIssuanceResultSchema,
   iouIssuanceWorkflowSchema,

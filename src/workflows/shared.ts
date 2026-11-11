@@ -1,7 +1,7 @@
 import { ToolExecutionContext } from '@mastra/core/tools'
 import { SubmittableTransaction, TransactionMetadata, TxResponse, Wallet } from 'xrpl'
 import z from 'zod'
-import { getXrplClient, LedgerClient, submit, toWalletRecord, WalletRecord } from '../../helpers'
+import { getXrplClient, LedgerClient, submit, toWalletRecord, WalletRecord } from '../helpers'
 
 /**
  * Transaction result schema
@@ -40,7 +40,7 @@ export const walletRecordSchema = z.object({
 })
 
 // Crypto errors in the confidential workflow can be plain objects: show them instead of "Unknown error"
-export { errorMessage } from '../../helpers'
+export { errorMessage } from '../helpers'
 
 /**
  * Submits a transaction signed by `signer` and throws unless it succeeded: a workflow cannot go on after a failed

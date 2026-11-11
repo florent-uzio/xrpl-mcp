@@ -8,7 +8,7 @@ import {
   SubmittableTransaction,
 } from 'xrpl'
 import { z } from 'zod'
-import { getXrplClient, networkSchema, withReadableErrors, xrplAddressSchema } from '../../../helpers'
+import { getXrplClient, networkSchema, withReadableErrors, xrplAddressSchema } from '../../helpers'
 
 const mptIssuanceId = z.string().describe('Hex ID of the MPT issuance')
 const amount = z.string().regex(/^\d+$/).describe('Integer string')

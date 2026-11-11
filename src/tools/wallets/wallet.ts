@@ -1,7 +1,7 @@
 import { createTool } from '@mastra/core/tools'
 import { ECDSA, Wallet } from 'xrpl'
 import { z } from 'zod'
-import { assertSeedAllowed, getXrplClient, networkSchema, xrplAddressSchema } from '../../../helpers'
+import { assertSeedAllowed, getXrplClient, networkSchema, xrplAddressSchema } from '../../helpers'
 
 const walletOutputSchema = z.object({
   address: xrplAddressSchema.describe('Classic address, safe to share'),

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ledgerSpecifierShape, xrplAddressSchema } from '../../../../../helpers'
+import { ledgerSpecifierShape, xrplAddressSchema } from '../../../../helpers'
 import { xrplAssetSchema } from '../../../transactions/shared'
 import { defineMethodTool } from '../../shared'
 

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { xrplDecimalValueSchema } from '../../../../helpers'
+import { xrplDecimalValueSchema } from '../../../helpers'
 import { xrplHash256Schema, xrplHexBlobSchema } from '../shared'
 import { xrplCommonFieldsSchema } from '../shared/common-fields'
 

@@ -1,4 +1,4 @@
-import { networkInstructions } from '../helpers/networks'
+import { networkInstructions } from './helpers/networks'
 
 // Instructions of the MCP server. The server adds its flow-record rules after them.
 export const XRPL_INSTRUCTIONS = `

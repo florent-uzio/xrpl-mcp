@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { xrplAddressSchema } from '../../../../helpers'
+import { xrplAddressSchema } from '../../../helpers'
 import { xrplHash256Schema } from '../shared'
 import { xrplCommonFieldsSchema } from '../shared/common-fields'
 

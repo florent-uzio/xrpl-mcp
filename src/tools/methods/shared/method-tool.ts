@@ -1,7 +1,7 @@
 import { createTool } from '@mastra/core/tools'
 import { Request } from 'xrpl'
 import { z } from 'zod'
-import { getXrplClient, networkSchema } from '../../../../helpers'
+import { getXrplClient, networkSchema } from '../../../helpers'
 import { encodeCurrencyCodesDeep } from '../../transactions/shared'
 import { xrplMethodResponse } from './response'
 

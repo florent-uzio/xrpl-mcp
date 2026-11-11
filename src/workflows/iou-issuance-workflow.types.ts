@@ -1,6 +1,6 @@
 import { AccountSetAsfFlags } from 'xrpl'
 import z from 'zod'
-import { workflowNetworkSchema } from '../../helpers'
+import { workflowNetworkSchema } from '../helpers'
 import { addressSchema, resultShape, txnResultSchema, walletRecordSchema } from './shared'
 
 /**

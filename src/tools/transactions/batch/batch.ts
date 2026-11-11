@@ -1,5 +1,5 @@
 import { Batch, BatchFlags, combineBatchSigners, decode, GlobalFlags, signMultiBatch, Wallet } from 'xrpl'
-import { assertSeedAllowed, autofill, getXrplClient } from '../../../../helpers'
+import { assertSeedAllowed, autofill, getXrplClient } from '../../../helpers'
 import { useTransactionToolFactory } from '../factory'
 import { xrplBatchSchema } from './batch.types'
 

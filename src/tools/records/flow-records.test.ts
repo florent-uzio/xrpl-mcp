@@ -2,7 +2,7 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { listFlowRecords } from '../../../helpers'
+import { listFlowRecords } from '../../helpers'
 import { getFlowRecordsTool, saveFlowRecordTool } from './flow-records'
 
 const TESTNET = 'wss://s.altnet.rippletest.net:51233/'

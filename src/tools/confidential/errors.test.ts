@@ -1,10 +1,10 @@
 import { ECDSA, Wallet } from 'xrpl'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { getXrplClient } from '../../../helpers'
+import { getXrplClient } from '../../helpers'
 import * as tools from './index'
 
-vi.mock('../../../helpers', async importOriginal => ({
-  ...(await importOriginal<typeof import('../../../helpers')>()),
+vi.mock('../../helpers', async importOriginal => ({
+  ...(await importOriginal<typeof import('../../helpers')>()),
   getXrplClient: vi.fn(),
 }))
 

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { xrplAssetSchema, xrplHash256Schema, xrplHexBlobSchema } from '../shared'
 import { xrplCommonFieldsSchema } from '../shared/common-fields'
-import { xrplDecimalValueSchema } from '../../../../helpers'
+import { xrplDecimalValueSchema } from '../../../helpers'
 
 /**
  * VaultCreate-specific fields schema

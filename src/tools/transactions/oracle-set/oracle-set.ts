@@ -1,5 +1,5 @@
 import { OracleSet } from 'xrpl'
-import { currencyCodeToHex } from '../../../../helpers'
+import { currencyCodeToHex } from '../../../helpers'
 import { useTransactionToolFactory } from '../factory'
 import { xrplOracleSetSchema } from './oracle-set.types'
 

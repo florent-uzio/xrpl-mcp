@@ -1,6 +1,6 @@
 import { createTool } from '@mastra/core/tools'
 import { z } from 'zod'
-import { FLOW_NAME_PATTERN, listFlowRecords, networkSchema, saveFlowRecord } from '../../../helpers'
+import { FLOW_NAME_PATTERN, listFlowRecords, networkSchema, saveFlowRecord } from '../../helpers'
 
 export const getFlowRecordsTool = createTool({
   id: 'get-flow-records',

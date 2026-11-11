@@ -1,7 +1,7 @@
 import { createTool } from '@mastra/core/tools'
 import { Client, LoanSet, signLoanSetByCounterparty, Wallet } from 'xrpl'
 import { z } from 'zod'
-import { assertSeedAllowed, autofill, getXrplClient } from '../../../../helpers'
+import { assertSeedAllowed, autofill, getXrplClient } from '../../../helpers'
 import { xrplLoanSetSchema } from './loan-set.types'
 
 type SignParams = {

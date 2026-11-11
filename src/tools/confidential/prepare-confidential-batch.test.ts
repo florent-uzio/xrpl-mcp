@@ -1,6 +1,6 @@
 import { Client, deriveConfidentialKeypair, ECDSA, GlobalFlags, Wallet } from 'xrpl'
 import { describe, expect, it } from 'vitest'
-import { errorMessage } from '../../../helpers'
+import { errorMessage } from '../../helpers'
 import { prepareBatch } from './prepare-confidential-batch'
 
 const wallet = () => Wallet.generate(ECDSA.secp256k1)

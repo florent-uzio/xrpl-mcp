@@ -6,7 +6,7 @@ import {
   MPTokenIssuanceCreateFlags,
   Payment,
 } from 'xrpl'
-import { getXrplClient, saveFlowRecord, supportedNetworksText } from '../../helpers'
+import { getXrplClient, saveFlowRecord, supportedNetworksText } from '../helpers'
 import {
   issuedSchema,
   mptIssuanceResultSchema,

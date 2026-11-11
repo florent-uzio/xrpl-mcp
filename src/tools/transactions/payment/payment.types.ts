@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { xrplAddressSchema, xrplDecimalValueSchema } from '../../../../helpers'
+import { xrplAddressSchema, xrplDecimalValueSchema } from '../../../helpers'
 import { xrplCommonFieldsSchema } from '../shared/common-fields'
 
 // XRPL Payment Transaction Fields schema

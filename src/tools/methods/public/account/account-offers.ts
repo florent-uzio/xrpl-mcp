@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ledgerSpecifierShape, paginationMarkerSchema, xrplAddressSchema } from '../../../../../helpers'
+import { ledgerSpecifierShape, paginationMarkerSchema, xrplAddressSchema } from '../../../../helpers'
 import { defineMethodTool } from '../../shared'
 
 export const getAccountOffersTool = defineMethodTool({

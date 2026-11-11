@@ -1,7 +1,7 @@
 import { MPTokenIssuanceCreateFlags } from 'xrpl'
 import z from 'zod'
 import { mptMetadataSchema } from './mpt-issuance-workflow.types'
-import { workflowNetworkSchema } from '../../helpers'
+import { workflowNetworkSchema } from '../helpers'
 import { addressSchema, resultShape, txnResultSchema, walletRecordSchema } from './shared'
 
 /**

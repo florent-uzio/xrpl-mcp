@@ -2,9 +2,9 @@ import type { ToolsInput } from '@mastra/core/agent'
 import { createTool } from '@mastra/core/tools'
 import { MCPServer } from '@mastra/mcp'
 import { z } from 'zod'
-import packageJson from '../../package.json'
-import { XRPL_INSTRUCTIONS } from '../mastra/instructions'
-import { allTools, workflows } from '../mastra/catalog'
+import packageJson from '../package.json'
+import { XRPL_INSTRUCTIONS } from './instructions'
+import { allTools, workflows } from './catalog'
 
 // MCP clients do not hand the server version to the model: a tool is the only way to ask for it.
 const getMcpVersionTool = createTool({

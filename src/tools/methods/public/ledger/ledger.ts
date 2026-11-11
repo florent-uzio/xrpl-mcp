@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ledgerSpecifierShape, paginationMarkerSchema } from '../../../../../helpers'
+import { ledgerSpecifierShape, paginationMarkerSchema } from '../../../../helpers'
 import { defineMethodTool } from '../../shared'
 
 export const getLedgerTool = defineMethodTool({

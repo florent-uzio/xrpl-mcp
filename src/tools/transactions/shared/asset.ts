@@ -1,5 +1,5 @@
 import z from 'zod'
-import { currencyCodeToHex, xrplAddressSchema } from '../../../../helpers'
+import { currencyCodeToHex, xrplAddressSchema } from '../../../helpers'
 import { xrplCurrencyAmountSchema } from './transaction-fields'
 
 const mptIssuanceIdSchema = z.string().describe('MPT issuance ID (48 hex characters)')

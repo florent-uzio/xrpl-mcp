@@ -12,7 +12,7 @@ import {
   VaultKind,
   Wallet,
 } from 'xrpl'
-import { assertSeedAllowed, getXrplClient, saveFlowRecord, toWalletRecord, supportedNetworksText } from '../../helpers'
+import { assertSeedAllowed, getXrplClient, saveFlowRecord, toWalletRecord, supportedNetworksText } from '../helpers'
 import {
   issuedSchema,
   lendingSetupResultSchema,

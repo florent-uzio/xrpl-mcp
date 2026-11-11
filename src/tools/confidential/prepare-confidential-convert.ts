@@ -1,7 +1,7 @@
 import { createTool } from '@mastra/core/tools'
 import { Client, deriveConfidentialKeypair, fetchMPToken, prepareConfidentialConvert } from 'xrpl'
 import { z } from 'zod'
-import { getXrplClient, networkSchema, withReadableErrors, xrplAddressSchema } from '../../../helpers'
+import { getXrplClient, networkSchema, withReadableErrors, xrplAddressSchema } from '../../helpers'
 import { assertKeyMatches } from './shared'
 
 type PrepareParams = {

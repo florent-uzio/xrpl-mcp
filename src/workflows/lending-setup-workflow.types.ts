@@ -1,5 +1,5 @@
 import z from 'zod'
-import { workflowNetworkSchema } from '../../helpers'
+import { workflowNetworkSchema } from '../helpers'
 import { addressSchema, resultShape, txnResultSchema, walletRecordSchema } from './shared'
 
 /**
