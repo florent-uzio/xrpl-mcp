@@ -1,5 +1,11 @@
 # @florent-uzio/xrpl-mcp
 
+## 2.0.1
+
+### Patch Changes
+
+- 86ee6c5: License the package under MIT instead of ISC, like the other repos.
+
 ## 2.0.0
 
 ### Major Changes
