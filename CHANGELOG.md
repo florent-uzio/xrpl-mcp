@@ -1,5 +1,11 @@
 # @florent-uzio/xrpl-mcp
 
+## 2.1.0
+
+### Minor Changes
+
+- 8cc87b8: Add the `submitMultisigned` (submit_multisigned) and `simulateTransaction` (simulate) tools.
+
 ## 2.0.1
 
 ### Patch Changes
