@@ -14,8 +14,10 @@ An MCP server, [`@florent-uzio/xrpl-mcp`](https://www.npmjs.com/package/@florent
 You only need Node.js 22.13 or later. No model API key is required: Claude Code does the reasoning and calls the tools.
 
 ```bash
-claude mcp add xrpl -- npx -y @florent-uzio/xrpl-mcp@latest
+claude mcp add --scope user xrpl -- npx -y @florent-uzio/xrpl-mcp@latest
 ```
+
+`--scope user` makes the server available in all your projects. Without it, Claude Code installs it for the current project only.
 
 Then ask Claude things like "What is the balance of rXXX on mainnet?" or "Issue an MPT on testnet with 2 holders".
 
