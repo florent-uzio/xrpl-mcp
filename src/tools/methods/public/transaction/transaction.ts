@@ -42,3 +42,32 @@ export const getTransactionEntryTool = defineMethodTool({
     ledger_hash: z.string().optional(),
   },
 })
+
+export const simulateTransactionTool = defineMethodTool({
+  id: 'simulateTransaction',
+  command: 'simulate',
+  description: `Dry-run an UNSIGNED transaction to preview its result and metadata without submitting it or paying a fee. Give tx_json (or tx_blob). Fee, Sequence, SigningPubKey and NetworkID are autofilled. Results may differ at real submission.`,
+  request: z
+    .object({
+      tx_json: z.looseObject({ TransactionType: z.string() }).optional().describe('Unsigned transaction JSON'),
+      tx_blob: z
+        .string()
+        .regex(/^[0-9A-Fa-f]+$/, 'Must be a hex string')
+        .optional()
+        .describe('Unsigned hex blob, instead of tx_json'),
+      binary: z.boolean().optional().describe('Return hex instead of JSON'),
+    })
+    .refine(r => (r.tx_json === undefined) !== (r.tx_blob === undefined), {
+      message: 'Provide exactly one of tx_json or tx_blob',
+    }),
+  result: {
+    applied: z.boolean().optional(),
+    engine_result: z.string().optional().describe('e.g. "tesSUCCESS"'),
+    engine_result_message: z.string().optional(),
+    ledger_index: z.number().optional(),
+    tx_json: z.looseObject({}).optional(),
+    tx_blob: z.string().optional(),
+    meta: z.looseObject({}).optional(),
+    meta_blob: z.string().optional(),
+  },
+})

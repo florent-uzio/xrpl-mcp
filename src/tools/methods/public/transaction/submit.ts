@@ -30,3 +30,21 @@ A tesSUCCESS engine_result only means the transaction was applied to the open le
     validated_ledger_index: z.number().optional(),
   },
 })
+
+export const submitMultisignedTool = defineMethodTool({
+  id: 'submitMultisigned',
+  command: 'submit_multisigned',
+  description: `Submit a multi-signed transaction, given as tx_json with a Signers array whose weights meet the account's SignerList quorum. Use submitSignedBlob for a single-signed hex blob. Irreversible on mainnet. engine_result is preliminary: confirm with getTx.`,
+  request: z.object({
+    tx_json: z
+      .looseObject({ TransactionType: z.string(), Signers: z.array(z.looseObject({})).min(1) })
+      .describe('Transaction JSON, fully autofilled, with a Signers array'),
+    fail_hard: z.boolean().optional().describe('If true, do not relay when local checks fail (default false)'),
+  }),
+  result: {
+    engine_result: z.string().optional().describe('Preliminary result, e.g. "tesSUCCESS"'),
+    engine_result_message: z.string().optional(),
+    tx_blob: z.string().optional(),
+    tx_json: z.looseObject({ hash: z.string().optional() }).optional(),
+  },
+})
