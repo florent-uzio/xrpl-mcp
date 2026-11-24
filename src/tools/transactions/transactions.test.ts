@@ -29,9 +29,9 @@ describe('transaction tools', () => {
     expect(ticketCreate.inputSchema.safeParse({ network: base.network, signature: 'DEADBEEF', txn }).success).toBe(
       false,
     )
-    // submitSignedBlob is the one submit tool that takes no transaction fields
+    // submitSignedBlob and submitMultisigned take no seed or txn
     submitTools
-      .filter(([name]) => name !== 'submitSignedBlobTool')
+      .filter(([name]) => !['submitSignedBlobTool', 'submitMultisignedTool'].includes(name))
       .forEach(([name, tool]) =>
         expect(Object.keys((tool.inputSchema as unknown as { shape: object }).shape), name).toEqual([
           'network',

@@ -93,7 +93,7 @@ describe('method tools', () => {
       [...readFileSync(file, 'utf8').matchAll(/command: '([^']+)'/g)].map(m => m[1]),
     )
 
-    expect(commands).toHaveLength(38)
+    expect(commands).toHaveLength(40)
     commands.forEach(command => expect(command).toMatch(/^[a-z]+(_[a-z]+)*$/))
     expect(new Set(commands).size).toBe(commands.length)
   })
